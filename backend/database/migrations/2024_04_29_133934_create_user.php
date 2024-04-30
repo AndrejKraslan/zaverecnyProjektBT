@@ -15,7 +15,7 @@ return new class extends Migration
             $table->bigIncrements('user_id');
             $table->string("first_name",50);
             $table->string("last_name",80);
-            $table->string("email",150);
+            $table->string("email",150); //->unique('email_unique_index')??
             $table->string("password",500);
             $table->tinyInteger('is_admin');
             $table->timestamps();
