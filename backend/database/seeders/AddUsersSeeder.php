@@ -15,12 +15,12 @@ class AddUsersSeeder extends Seeder
     public function run(): void
     {
         for ($i = 0; $i<10; $i++){
-            $newUser = new Users();
-            $newUser->first_name = "user_name".mt_rand(1,5000);
-            $newUser->last_name = "user_surname".mt_rand(1,5000);
-            $newUser->email = "user_".mt_rand(1,5000) . "@gmail.com";
-            $newUser->password = Str::random(10);
-            $newUser->is_admin = 0;
-            $newUser->save();}
+            $newUsers = new Users();
+            $newUsers->first_name = "user_name".mt_rand(1,5000);
+            $newUsers->last_name = "user_surname".mt_rand(1,5000);
+            $newUsers->email = "user_".mt_rand(1,5000) . "@gmail.com";
+            $newUsers->password = Str::random(10);
+            $newUsers->is_admin = 0;
+            $newUsers->save();}
     }
 }
