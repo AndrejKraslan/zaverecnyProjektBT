@@ -12,4 +12,8 @@ class Speakers extends Model
     protected $primaryKey = 'speaker_id';
     protected $fillable = ['name','description_short','description_long','image','facebook_url','instagram_url',
         'twitter_url','web_url'];
+    public function lectures(){
+        return $this->hasMany(Lectures::class,
+            'speaker_id','speaker_id');
+    }
 }
