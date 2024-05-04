@@ -12,16 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('users_has_lectures', function (Blueprint $table) {
-            // toto neviem ci je spravne!!!!
-            //
-            //
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('lecture_id');
+            // tu moze byt chyba!
+            $table->id();
+            $table->unsignedBigInteger('user_id')->notNull();
+            $table->unsignedBigInteger('lecture_id')->notNull();
             $table->timestamps();
 
-            // Foreign keys
-            $table->foreign('user_id')->references('user_id')->on('users');
-            $table->foreign('lecture_id')->references('lecture_id')->on('lectures');
+            $table->foreign('user_id')->references('user_id')->on('users')->onDelete('cascade');
+            $table->foreign('lecture_id')->references('lecture_id')->on('lectures')->onDelete('cascade');
         });
     }
 
