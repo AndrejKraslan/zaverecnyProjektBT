@@ -15,4 +15,9 @@ class Stages extends Model
         'date',
         'room'
     ];
+    public function lectures(){
+        return $this->hasMany(Lectures::class,
+            'stage_id','stage_id');
+    }
+
 }

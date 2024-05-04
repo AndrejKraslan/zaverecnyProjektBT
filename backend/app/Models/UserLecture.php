@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class UserLecture extends Model
 {
     use HasFactory;
-    protected $table = 'users_has_lectures'; // názov vašej spojovacej tabuľky
+    protected $table = 'users_has_lectures'; // názov spojovacej tabuľky
 
     protected $fillable = [
         'user_id',
