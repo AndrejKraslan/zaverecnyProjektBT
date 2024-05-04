@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('users_has_lectures', function (Blueprint $table) {
             // tu moze byt chyba!
-            $table->id('user_id');
-            $table->id('lecture_id');
+            $table->id();
+            $table->unsignedBigInteger('user_id')->notNull();
+            $table->unsignedBigInteger('lecture_id')->notNull();
             $table->timestamps();
 
             $table->foreign('user_id')->references('user_id')->on('users')->onDelete('cascade');
