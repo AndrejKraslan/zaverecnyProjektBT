@@ -16,6 +16,10 @@ class DatabaseSeeder extends Seeder
         $this->call(AddStagesSeeder::class);
         $this->call(AddSponsorsSeeder::class);
         $this->call(AddSpeakersSeeder::class);
+        $this->call(AddLecturesSeeder::class);
+        $this->call(AddCommentsSeeder::class);
+        $this->call(AddUsersHasLectures::class);
+
 
     }
 }
