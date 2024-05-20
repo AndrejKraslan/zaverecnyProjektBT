@@ -1,10 +1,11 @@
 <?php
 
+use App\Http\Controllers\RegistrationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 
-
+Route::post('/register', [RegistrationController::class, 'register'])->middleware('guest:sanctum');
 Route::post('login', LoginController::class)->middleware('guest:sanctum');
 
 Route::get('/user', function (Request $request) {
