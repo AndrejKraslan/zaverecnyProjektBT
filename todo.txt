@@ -1,0 +1,4 @@
+
+
+- pridať button ->  <button class="btn btn-primary">RESERVE YOUR SEAT</button>
+ - tento bude až po prihlásení v navbare
