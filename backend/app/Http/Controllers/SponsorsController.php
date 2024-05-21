@@ -43,10 +43,10 @@ class SponsorsController extends Controller
     public function update(Request $request, $id)
     {
         $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'url' => 'required|url',
+            'name' => 'required|string|max:100',
+            'url' => 'required|url|max:500',
             'description' => 'required|string',
-            'image' => 'nullable|string',
+            'image' => 'nullable|string|max:500',
         ]);
 
         $sponsor = Sponsors::find($id);

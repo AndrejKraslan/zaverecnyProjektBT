@@ -28,9 +28,9 @@ class StagesController extends Controller
     public function create(Request $request)
     {
         $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:100',
             'date' => 'required|date_format:Y-m-d H:i:s',
-            'room' => 'required|string|max:255',
+            'room' => 'required|string|max:100',
         ]);
 
         $stage = Stages::create($validatedData);

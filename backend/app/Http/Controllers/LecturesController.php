@@ -36,7 +36,7 @@ class LecturesController extends Controller
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
-            'image' => 'nullable|string',
+            'image' => 'nullable|string|max:500',
             'capacity' => 'required|integer',
             'max_capacity' => 'required|integer',
             'start' => 'required|date',
