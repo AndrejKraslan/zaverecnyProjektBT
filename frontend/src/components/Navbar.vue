@@ -54,8 +54,8 @@
               <router-link class="nav-link" :class="{ active: isActive('/contact') }" to="/contact">Contact</router-link>
             </li>
           </ul>
-          <button class="btn btn-primary">Login</button>
-          <button class="btn btn-primary">Register</button>
+          <router-link class="btn btn-primary me-2" to="/login">Login</router-link>
+          <router-link class="btn btn-primary" to="/register">Register</router-link>
         </div>
       </div>
     </nav>
@@ -90,7 +90,6 @@ body {
 .btn-primary {
   background-color: #8666f6;
   border: none;
-  margin-right: 1rem;
 }
 .btn-primary:hover {
   background-color: #6a4eb7;
