@@ -13,7 +13,7 @@ class UsersHasLecturesController extends Controller
         $this->middleware('auth:sanctum')->only(['register']);
     }
 
-    public function test()
+    public function index()
     {
         $usersLectures = UserLecture::all();
 
