@@ -31,4 +31,9 @@ class Lectures extends Model
     {
         return $this->belongsTo(Stages::class, 'stage_id', 'stage_id');
     }
+
+    public function speakers()
+    {
+        return $this->belongsToMany(Speakers::class, 'speakers_has_lectures', 'lecture_id', 'speaker_id');
+    }
 }

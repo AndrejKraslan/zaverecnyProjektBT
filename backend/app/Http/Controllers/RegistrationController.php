@@ -33,7 +33,7 @@ class RegistrationController extends Controller
         ]);
 
         // Odoslanie potvrdenia emailu po úspešnej registrácii používateľovi
-        $userMessage = "Thank you for registering, {$user->first_name} {$user->last_name}! Your registration is now complete.";
+       $userMessage = "Thank you for registering, {$user->first_name} {$user->last_name}! Your registration is now complete.";
         Mail::raw($userMessage, function ($mail) use ($user) {
             $mail->to($user->email) // email, ktorý zadal používateľ
             ->subject('Registration Confirmation')

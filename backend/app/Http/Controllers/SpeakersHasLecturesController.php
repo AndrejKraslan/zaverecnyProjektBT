@@ -27,6 +27,7 @@ class SpeakersHasLecturesController extends Controller
     }
 
     // Method to assign a speaker to a lecture
+
     public function register(Request $request)
     {
         // Validate the request data
@@ -50,6 +51,7 @@ class SpeakersHasLecturesController extends Controller
         if ($existingRecord) {
             return response()->json(['message' => 'This speaker is already assigned to this lecture'], 409);
         }
+
         // Check for overlapping lectures with the same speaker
         $overlappingLectureWithSpeaker = SpeakerLecture::where('speaker_id', $request->speaker_id)
             ->get()
@@ -66,6 +68,8 @@ class SpeakersHasLecturesController extends Controller
             return response()->json(['message' => 'This speaker is already assigned to another lecture at the specified time.'], 409);
         }
 
+
+
         // Create the new record
         $speakerLecture = SpeakerLecture::create([
             'speaker_id' => $request->speaker_id,
@@ -74,6 +78,7 @@ class SpeakersHasLecturesController extends Controller
 
         return response()->json(['message' => 'Speaker assigned to lecture successfully', 'data' => $speakerLecture], 201);
     }
+
 
     public function cancelRegistration(Request $request)
     {
@@ -97,4 +102,5 @@ class SpeakersHasLecturesController extends Controller
 
         return response()->json(['message' => 'Speaker registration canceled successfully']);
     }
+
 }

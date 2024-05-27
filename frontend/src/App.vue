@@ -19,4 +19,5 @@ export default {
 #app {
   margin-top: 0;
 }
+
 </style>

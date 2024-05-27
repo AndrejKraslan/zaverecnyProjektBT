@@ -67,3 +67,7 @@ Route::middleware('auth:sanctum')->post('/cancel_lecture_user', [UsersHasLecture
 // prihlasenie speakera na lecture
 Route::post('/register_lecture_speaker', [SpeakersHasLecturesController::class, 'register']);
 Route::post('/cancel_lecture_speaker', [SpeakersHasLecturesController::class, 'cancelRegistration']);
+// admin operacie 
+Route::post('/make_admin', [UsersController::class, 'makeAdmin']);
+Route::post('/remove_admin', [UsersController::class, 'removeAdmin']);
+
