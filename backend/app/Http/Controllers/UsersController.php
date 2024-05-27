@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Users;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+
 
 class UsersController extends Controller
 {
@@ -26,4 +28,5 @@ class UsersController extends Controller
 
         return response()->json($usersJson);
     }
+
 }
