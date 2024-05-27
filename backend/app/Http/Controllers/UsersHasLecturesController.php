@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\UserLecture;
+use App\Models\Lectures;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -41,6 +42,8 @@ class UsersHasLecturesController extends Controller
         // Get the currently authenticated user
         $user = Auth::user();
 
+        // Get the requested lecture
+        $requestedLecture = Lectures::find($validatedData['lecture_id']);
         // Check if the user is already registered for this lecture
         $existingRegistration = UserLecture::where('user_id', $user->user_id)
             ->where('lecture_id', $validatedData['lecture_id'])
@@ -49,6 +52,20 @@ class UsersHasLecturesController extends Controller
         if ($existingRegistration) {
             return response()->json(['message' => 'You are already registered for this lecture'], 409);
         }
+        // Check for overlapping lectures
+        $overlappingLecture = Lectures::whereHas('users', function ($query) use ($user) {
+            $query->where('users.user_id', $user->user_id);
+        })
+            ->where(function ($query) use ($requestedLecture) {
+                $query->where('start', '<', $requestedLecture->end)
+                    ->where('end', '>', $requestedLecture->start);
+            })
+            ->first();
+
+        if ($overlappingLecture) {
+            return response()->json(['message' => 'You are already registered for a lecture that overlaps with the requested lecture'], 409);
+        }
+
 
         // Create the new registration
         $userLecture = UserLecture::create([

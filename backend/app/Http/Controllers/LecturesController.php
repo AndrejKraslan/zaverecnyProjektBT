@@ -39,11 +39,23 @@ class LecturesController extends Controller
             'image' => 'nullable|string|max:500',
             'capacity' => 'required|integer',
             'max_capacity' => 'required|integer',
-            'start' => 'required|date',
-            'end' => 'required|date',
+            'start' => 'required|date_format:Y-m-d H:i:s',
+            'end' => 'required|date_format:Y-m-d H:i:s',
             'speaker_id' => 'required|integer|exists:speakers,speaker_id',
             'stage_id' => 'required|integer|exists:stages,stage_id',
         ]);
+
+        // Check for overlapping lectures on the same stage
+        $overlappingLecture = Lectures::where('stage_id', $validatedData['stage_id'])
+            ->where(function ($query) use ($validatedData) {
+                $query->where('start', '<', $validatedData['end'])
+                    ->where('end', '>', $validatedData['start']);
+            })
+            ->first();
+
+        if ($overlappingLecture) {
+            return response()->json(['message' => 'A lecture already exists on this stage at the specified time.'], 409);
+        }
 
         $lecture = Lectures::create($validatedData);
 
@@ -68,6 +80,19 @@ class LecturesController extends Controller
 
         if (!$lecture) {
             return response()->json(['message' => 'Lecture not found'], 404);
+        }
+
+        // Check for overlapping lectures on the same stage, excluding the current lecture
+        $overlappingLecture = Lectures::where('stage_id', $validatedData['stage_id'])
+            ->where('lecture_id', '!=', $id)
+            ->where(function ($query) use ($validatedData) {
+                $query->where('start', '<', $validatedData['end'])
+                    ->where('end', '>', $validatedData['start']);
+            })
+            ->first();
+
+        if ($overlappingLecture) {
+            return response()->json(['message' => 'A lecture already exists on this stage at the specified time.'], 409);
         }
 
         $lecture->update($validatedData);
@@ -98,5 +123,4 @@ class LecturesController extends Controller
 
         return response()->json($lecture);
     }
-
 }

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Lectures extends Model
 {
     use HasFactory;
+
     protected $table = 'lectures';
     protected $primaryKey = 'lecture_id';
     protected $fillable = [
@@ -20,12 +21,14 @@ class Lectures extends Model
         'end',
         'stage_id'
     ];
-    public function users(){
-        return $this->belongsToMany(Users::class,'users_has_lectures',
-            'user_id','lecture_id'); // neviem poradie
+
+    public function users()
+    {
+        return $this->belongsToMany(Users::class, 'users_has_lectures', 'lecture_id', 'user_id');
     }
-    public function stages(){
-        return $this->belongsTo(Stages::class,
-            'stage_id','stage_id');
+
+    public function stages()
+    {
+        return $this->belongsTo(Stages::class, 'stage_id', 'stage_id');
     }
 }
