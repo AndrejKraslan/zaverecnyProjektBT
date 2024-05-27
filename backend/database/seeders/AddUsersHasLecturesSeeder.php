@@ -9,7 +9,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
-class AddUsersHasLectures extends Seeder
+class AddUsersHasLecturesSeeder extends Seeder
 {
     public function run(): void
     {
@@ -25,4 +25,5 @@ class AddUsersHasLectures extends Seeder
             $newUserLecture->save();
 
     }
-}}
+}
+}
