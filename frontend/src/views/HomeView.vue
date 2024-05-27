@@ -1,10 +1,10 @@
 <template>
   <main>
-    <p>Test</p>
-    <TheWelcome />
+    <SlideShowHeader />
+    <p>test</p>
   </main>
 </template>
 
 <script setup>
-import TheWelcome from "@/components/TheWelcome.vue";
+import SlideShowHeader from '@/components/SlideShowHeader.vue';
 </script>
