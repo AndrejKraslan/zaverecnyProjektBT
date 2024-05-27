@@ -59,3 +59,7 @@ Route::delete('/delete_user_has_lecture/{id}',[UsersHasLecturesController::class
 
 
 // dokoncit CRUD operacie pre ostatne entity, osetrit mazanie entit so vztahmi, momentalne neviem vymazat spekaera, ktory ma prideleny lecture
+
+// prihlasenie usera do lecture
+Route::middleware('auth:sanctum')->post('/register-lecture', [UsersHasLecturesController::class, 'register']);
+Route::middleware('auth:sanctum')->post('/cancel-lecture', [UsersHasLecturesController::class, 'cancelRegistration']);

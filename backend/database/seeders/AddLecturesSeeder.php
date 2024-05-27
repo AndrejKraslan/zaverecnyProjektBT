@@ -32,7 +32,6 @@ class AddLecturesSeeder extends Seeder
             $newLectures->max_capacity = mt_rand(100, 200);
             $newLectures->start = $randomTime;
             $newLectures->end = $randomTime;
-            $newLectures->speaker_id = $speakers[array_rand($speakers)];
             $newLectures->stage_id = $stages[array_rand($stages)];
             $newLectures->save();}
     }

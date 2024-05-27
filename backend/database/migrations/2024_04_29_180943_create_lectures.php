@@ -20,12 +20,10 @@ return new class extends Migration
             $table->integer('max_capacity');
             $table->time('start');
             $table->time('end');
-            $table->unsignedBigInteger('speaker_id');
             $table->unsignedBigInteger('stage_id');
             $table->timestamps();
 
             // Foreign keys
-            $table->foreign('speaker_id')->references('speaker_id')->on('speakers');
             $table->foreign('stage_id')->references('stage_id')->on('stages');
         });
     }
