@@ -9,7 +9,7 @@ class LecturesController extends Controller
 {
     public function index()
     {
-        $lectures = Lectures::all();
+        $lectures = Lectures::with('speakers')->get();
 
         $lecturesJson = $lectures->map(function ($lecture) {
             return [
@@ -24,7 +24,20 @@ class LecturesController extends Controller
                 'SpeakerID' => $lecture->speaker_id,
                 'StageID' => $lecture->stage_id,
                 'CreatedAt' => $lecture->created_at,
-                'UpdatedAt' => $lecture->updated_at
+                'UpdatedAt' => $lecture->updated_at,
+                'Speakers' => $lecture->speakers->map(function ($speaker) {
+                    return [
+                        'ID' => $speaker->speaker_id,
+                        'Name' => $speaker->name,
+                        'DescriptionShort' => $speaker->description_short,
+                        'DescriptionLong' => $speaker->description_long,
+                        'Image' => $speaker->image,
+                        'FacebookURL' => $speaker->facebook_url,
+                        'InstagramURL' => $speaker->instagram_url,
+                        'TwitterURL' => $speaker->twitter_url,
+                        'WebURL' => $speaker->web_url,
+                    ];
+                }),
             ];
         });
 
