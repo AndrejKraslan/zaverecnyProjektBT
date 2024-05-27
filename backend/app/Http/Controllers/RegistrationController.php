@@ -28,8 +28,8 @@ class RegistrationController extends Controller
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'is_admin' => $request->is_admin ?? false, // defoult false pri registracii
+            'password' => $request->password,
+            'is_admin' => $request->is_admin ?? false, // default false pri registracii
         ]);
 
         // Odoslanie potvrdenia emailu po úspešnej registrácii používateľovi
