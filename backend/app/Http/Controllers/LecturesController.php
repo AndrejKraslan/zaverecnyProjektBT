@@ -54,7 +54,6 @@ class LecturesController extends Controller
             'max_capacity' => 'required|integer',
             'start' => 'required|date_format:Y-m-d H:i:s',
             'end' => 'required|date_format:Y-m-d H:i:s',
-            'speaker_id' => 'required|integer|exists:speakers,speaker_id',
             'stage_id' => 'required|integer|exists:stages,stage_id',
         ]);
 
