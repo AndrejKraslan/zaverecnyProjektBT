@@ -50,7 +50,7 @@ export default {
   },
   methods: {
     fetchStages() {
-      axios.get('http://localhost:8888/zaverecnyProjektBT/backend/public/api/stages')
+      axios.get('http://localhost:/zaverecnyProjektBT/backend/public/api/stages')
           .then(response => {
             this.stages = response.data;
             console.log('Stages:', this.stages);
@@ -63,7 +63,7 @@ export default {
           });
     },
     fetchLectures() {
-      axios.get('http://localhost:8888/zaverecnyProjektBT/backend/public/api/lectures')
+      axios.get('http://localhost:/zaverecnyProjektBT/backend/public/api/lectures')
           .then(response => {
             console.log('Lectures raw response:', response);
             this.events = response.data;

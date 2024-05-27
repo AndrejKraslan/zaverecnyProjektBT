@@ -63,3 +63,7 @@ Route::delete('/delete_user_has_lecture/{id}',[UsersHasLecturesController::class
 // prihlasenie usera do lecture
 Route::middleware('auth:sanctum')->post('/register_lecture', [UsersHasLecturesController::class, 'register']);
 Route::middleware('auth:sanctum')->post('/cancel_lecture', [UsersHasLecturesController::class, 'cancelRegistration']);
+
+// admin modifikacie
+Route::post('/make_admin', [UsersController::class, 'makeAdmin']);
+Route::post('/remove_admin', [UsersController::class, 'removeAdmin']);
