@@ -54,8 +54,14 @@
               <router-link class="nav-link" :class="{ active: isActive('/contact') }" to="/contact">Contact</router-link>
             </li>
           </ul>
-          <router-link class="btn btn-primary me-2" to="/login">Login</router-link>
-          <router-link class="btn btn-primary" to="/register">Register</router-link>
+          <div v-if="isAuthenticated">
+            <router-link class="btn btn-primary me-2" to="/reserve">Reserve Seat</router-link>
+            <button class="btn btn-primary" @click="handleLogout">Log Out</button>
+          </div>
+          <div v-else>
+            <router-link class="btn btn-primary me-2" to="/login">Login</router-link>
+            <router-link class="btn btn-primary" to="/register">Register</router-link>
+          </div>
         </div>
       </div>
     </nav>
@@ -63,11 +69,30 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex';
+
 export default {
   name: 'Navbar',
+  computed: {
+    ...mapGetters(['isAuthenticated'])
+  },
   methods: {
+    ...mapActions(['logout']),
     isActive(path) {
       return this.$route.path === path;
+    },
+    async handleLogout() {
+      await this.logout();
+      this.$router.push('/');
+      // Refresh the page to update the navbar
+      window.location.reload();
+    }
+  },
+  watch: {
+    isAuthenticated(newValue) {
+      if (!newValue) {
+        this.$router.push('/');
+      }
     }
   }
 }
@@ -84,13 +109,16 @@ body {
   color: white !important;
   border-radius: 0.25rem;
 }
+
 .navbar-nav .nav-item + .nav-item {
   margin-left: 1rem;
 }
+
 .btn-primary {
   background-color: #8666f6;
   border: none;
 }
+
 .btn-primary:hover {
   background-color: #6a4eb7;
 }
