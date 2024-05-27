@@ -1,8 +1,7 @@
 import { createApp } from 'vue';
-import App from './App.vue'; // Use relative path
-import router from './router/index.js'; // Use relative path
-import axios from './plugins/axios.js'; // Use relative path
-import store from './store';
+import App from '@/App.vue'; // Use relative path
+import router from '@/router/index.js'; // Use relative path
+import store from '@/store';
 
 import BootstrapVue3 from 'bootstrap-vue-3';
 import 'bootstrap/dist/css/bootstrap.css';
