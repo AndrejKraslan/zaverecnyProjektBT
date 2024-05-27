@@ -4,6 +4,7 @@ use App\Http\Controllers\CommentsController;
 use App\Http\Controllers\LecturesController;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\SpeakersController;
+use App\Http\Controllers\SpeakersHasLecturesController;
 use App\Http\Controllers\SponsorsController;
 use App\Http\Controllers\StagesController;
 use App\Http\Controllers\UsersController;
@@ -61,9 +62,12 @@ Route::delete('/delete_user_has_lecture/{id}',[UsersHasLecturesController::class
 // dokoncit CRUD operacie pre ostatne entity, osetrit mazanie entit so vztahmi, momentalne neviem vymazat spekaera, ktory ma prideleny lecture
 
 // prihlasenie usera do lecture
-Route::middleware('auth:sanctum')->post('/register_lecture', [UsersHasLecturesController::class, 'register']);
-Route::middleware('auth:sanctum')->post('/cancel_lecture', [UsersHasLecturesController::class, 'cancelRegistration']);
-
-// admin modifikacie
+Route::middleware('auth:sanctum')->post('/register_lecture_user', [UsersHasLecturesController::class, 'register']);
+Route::middleware('auth:sanctum')->post('/cancel_lecture_user', [UsersHasLecturesController::class, 'cancelRegistration']);
+// prihlasenie speakera na lecture
+Route::post('/register_lecture_speaker', [SpeakersHasLecturesController::class, 'register']);
+Route::post('/cancel_lecture_speaker', [SpeakersHasLecturesController::class, 'cancelRegistration']);
+// admin operacie 
 Route::post('/make_admin', [UsersController::class, 'makeAdmin']);
 Route::post('/remove_admin', [UsersController::class, 'removeAdmin']);
+
