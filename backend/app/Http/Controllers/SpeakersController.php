@@ -16,6 +16,7 @@ class SpeakersController extends Controller
                 'ID' => $speaker->speaker_id,
                 'Name' => $speaker->name,
                 'Description_Short' => $speaker->description_short,
+                'Image' => $speaker->image,
                 'Description_Long' => $speaker->description_long,
                 'Facebook' => $speaker->facebook_url,
                 'Instagram' => $speaker->instagram_url,
