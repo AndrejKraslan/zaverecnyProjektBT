@@ -40,7 +40,7 @@ Route::post('/create_comment',[CommentsController::class,'create']);
 Route::post('/create_lecture',[LecturesController::class,'create']);
 Route::post('/create_sponsor',[SponsorsController::class,'create']);
 Route::post('/create_stage',[StagesController::class,'create']);
-Route::post('/create_user_has_lecture',[UsersHasLecturesController::class,'create']); // mozno nebude treba
+Route::post('/create_user_has_lecture',[UsersHasLecturesController::class,'create']);
 
 // UPDATE ROUTES
 Route::put('/update_speaker/{id}',[SpeakersController::class,'update']);
@@ -48,7 +48,7 @@ Route::put('/update_comment/{id}',[CommentsController::class,'update']);
 Route::put('/update_lecture/{id}',[LecturesController::class,'update']);
 Route::put('/update_sponsor/{id}',[SponsorsController::class,'update']);
 Route::put('/update_stage/{id}',[StagesController::class,'update']);
-Route::put('/update_user_has_lecture/{id}',[UsersHasLecturesController::class,'update']); // mozno nbude treba
+Route::put('/update_user_has_lecture/{id}',[UsersHasLecturesController::class,'update']);
 
 // DELETE ROUTES
 Route::delete('/delete_speaker/{id}',[SpeakersController::class,'delete']);
@@ -56,18 +56,18 @@ Route::delete('/delete_comment/{id}',[CommentsController::class,'delete']);
 Route::delete('/delete_lecture/{id}',[LecturesController::class,'delete']);
 Route::delete('/delete_sponsor/{id}',[SponsorsController::class,'delete']);
 Route::delete('/delete_stage/{id}',[StagesController::class,'delete']);
-Route::delete('/delete_user_has_lecture/{id}',[UsersHasLecturesController::class,'delete']); // mozno nebude treba
+Route::delete('/delete_user_has_lecture/{id}',[UsersHasLecturesController::class,'delete']);
 
-
-// dokoncit CRUD operacie pre ostatne entity, osetrit mazanie entit so vztahmi, momentalne neviem vymazat spekaera, ktory ma prideleny lecture
 
 // prihlasenie usera do lecture
 Route::middleware('auth:sanctum')->post('/register_lecture_user', [UsersHasLecturesController::class, 'register']);
 Route::middleware('auth:sanctum')->post('/cancel_lecture_user', [UsersHasLecturesController::class, 'cancelRegistration']);
+
 // prihlasenie speakera na lecture
 Route::post('/register_lecture_speaker', [SpeakersHasLecturesController::class, 'register']);
 Route::post('/cancel_lecture_speaker', [SpeakersHasLecturesController::class, 'cancelRegistration']);
-// admin operacie 
+
+// admin operacie
 Route::post('/make_admin', [UsersController::class, 'makeAdmin']);
 Route::post('/remove_admin', [UsersController::class, 'removeAdmin']);
 

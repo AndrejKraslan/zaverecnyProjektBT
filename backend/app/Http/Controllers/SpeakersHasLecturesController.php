@@ -26,11 +26,11 @@ class SpeakersHasLecturesController extends Controller
         return response()->json($speakersLecturesJson);
     }
 
-    // Method to assign a speaker to a lecture
 
+// pridelit speakera k prednaske
     public function register(Request $request)
     {
-        // Validate the request data
+        // kontrola ci existuju
         $validator = Validator::make($request->all(), [
             'speaker_id' => 'required|exists:speakers,speaker_id',
             'lecture_id' => 'required|exists:lectures,lecture_id',
@@ -40,10 +40,10 @@ class SpeakersHasLecturesController extends Controller
             return response()->json($validator->errors(), 422);
         }
 
-        // Get the requested lecture
+        // vybrana prednaska
         $requestedLecture = Lectures::find($request->lecture_id);
 
-        // Check if the association already exists
+        // kontrola duplicity
         $existingRecord = SpeakerLecture::where('speaker_id', $request->speaker_id)
             ->where('lecture_id', $request->lecture_id)
             ->first();
@@ -52,7 +52,7 @@ class SpeakersHasLecturesController extends Controller
             return response()->json(['message' => 'This speaker is already assigned to this lecture'], 409);
         }
 
-        // Check for overlapping lectures with the same speaker
+        // kontrola ci je speaker dostupny
         $overlappingLectureWithSpeaker = SpeakerLecture::where('speaker_id', $request->speaker_id)
             ->get()
             ->pluck('lecture_id')
@@ -70,7 +70,7 @@ class SpeakersHasLecturesController extends Controller
 
 
 
-        // Create the new record
+        // zapis
         $speakerLecture = SpeakerLecture::create([
             'speaker_id' => $request->speaker_id,
             'lecture_id' => $request->lecture_id,
@@ -82,13 +82,13 @@ class SpeakersHasLecturesController extends Controller
 
     public function cancelRegistration(Request $request)
     {
-        // Validate the request data
+        // kontorla existencie
         $validatedData = $request->validate([
             'lecture_id' => 'required|exists:lectures,lecture_id',
             'speaker_id' => 'required|exists:speakers,speaker_id',
         ]);
 
-        // Find the speaker registration record
+        // najst zaznam v medzitabulke
         $registration = SpeakerLecture::where('speaker_id', $validatedData['speaker_id'])
             ->where('lecture_id', $validatedData['lecture_id'])
             ->first();
@@ -97,7 +97,7 @@ class SpeakersHasLecturesController extends Controller
             return response()->json(['message' => 'Speaker registration not found'], 404);
         }
 
-        // Delete the registration
+        // dlete
         $registration->delete();
 
         return response()->json(['message' => 'Speaker registration canceled successfully']);
