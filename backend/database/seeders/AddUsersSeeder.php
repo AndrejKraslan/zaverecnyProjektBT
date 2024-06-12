@@ -20,8 +20,8 @@ class AddUsersSeeder extends Seeder
             $newUsers->first_name = "user_name".mt_rand(1,5000);
             $newUsers->last_name = "user_surname".mt_rand(1,5000);
             $newUsers->email = "user_".mt_rand(1,5000) . "@gmail.com";
-            $newUsers->password = Hash::make('password');
-            $newUsers->is_admin = mt_rand(0,1);
+            $newUsers->password = 'password';
+            $newUsers->is_admin = 0;
             $newUsers->save();}
     }
 }

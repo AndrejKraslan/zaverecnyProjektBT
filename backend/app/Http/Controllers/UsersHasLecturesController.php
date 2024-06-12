@@ -31,20 +31,20 @@ class UsersHasLecturesController extends Controller
         return response()->json($usersLectureJson);
     }
 
-    // Registration method for a user to register for a lecture
+    // prihlasenie usera na prednasku
     public function register(Request $request)
     {
-        // Validate the request data
+        // kontrola id
         $validatedData = $request->validate([
             'lecture_id' => 'required|exists:lectures,lecture_id',
         ]);
 
-        // Get the currently authenticated user
+        // get user
         $user = Auth::user();
 
-        // Get the requested lecture
+        // ge lecture
         $requestedLecture = Lectures::find($validatedData['lecture_id']);
-        // Check if the user is already registered for this lecture
+        // kontrola duplicitneho prihlasenia
         $existingRegistration = UserLecture::where('user_id', $user->user_id)
             ->where('lecture_id', $validatedData['lecture_id'])
             ->first();
@@ -52,7 +52,7 @@ class UsersHasLecturesController extends Controller
         if ($existingRegistration) {
             return response()->json(['message' => 'You are already registered for this lecture'], 409);
         }
-        // Check for overlapping lectures
+        // kontrola prekrytia
         $overlappingLecture = Lectures::whereHas('users', function ($query) use ($user) {
             $query->where('users.user_id', $user->user_id);
         })
@@ -67,7 +67,7 @@ class UsersHasLecturesController extends Controller
         }
 
 
-        // Create the new registration
+        // vtvorit registraciu
         $userLecture = UserLecture::create([
             'user_id' => $user->user_id,
             'lecture_id' => $validatedData['lecture_id'],
@@ -78,15 +78,15 @@ class UsersHasLecturesController extends Controller
 
     public function cancelRegistration(Request $request)
     {
-        // Validate the request data
+        // kontrola existencie
         $validatedData = $request->validate([
             'lecture_id' => 'required|exists:lectures,lecture_id',
         ]);
 
-        // Get the currently authenticated user
+        // get user
         $user = Auth::user();
 
-        // Find the registration record
+        // najst v medzitabulke zaznam
         $registration = UserLecture::where('user_id', $user->user_id)
             ->where('lecture_id', $validatedData['lecture_id'])
             ->first();
@@ -95,7 +95,7 @@ class UsersHasLecturesController extends Controller
             return response()->json(['message' => 'Registration not found'], 404);
         }
 
-        // Delete the registration
+        // Delete
         $registration->delete();
 
         return response()->json(['message' => 'Registration canceled successfully']);
