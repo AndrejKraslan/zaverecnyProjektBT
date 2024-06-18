@@ -16,7 +16,6 @@ class CommentsController extends Controller
                 'ID' => $comment->comment_id,
                 'Name' => $comment->name,
                 'Description' => $comment->description,
-                'Image' => $comment->image,
                 'CreatedAt' => $comment->created_at,
                 'UpdatedAt' => $comment->updated_at
             ];
@@ -30,7 +29,6 @@ class CommentsController extends Controller
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
-            'image' => 'nullable|string',
         ]);
 
         $comment = Comments::create($validatedData);
@@ -43,7 +41,6 @@ class CommentsController extends Controller
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
-            'image' => 'nullable|string',
         ]);
 
         $comment = Comments::find($id);

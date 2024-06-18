@@ -20,7 +20,8 @@ class AddSponsorsSeeder extends Seeder
             $newSponsors->name = "sponsor_".mt_rand(1,5000);
             $newSponsors->url = "www.sponsor_".mt_rand(1,5000)."com";
             $newSponsors->description = Str::random(250);
-            $newSponsors->image = Str::random(100);
+            $imageIndex = mt_rand(0, 15);
+            $newSponsors->image = "speaker{$imageIndex}.webp";
             $newSponsors->save();}
     }
 }

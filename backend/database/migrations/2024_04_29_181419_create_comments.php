@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id('comment_id');
             $table->string("name",150);
             $table->text("description");
-            $table->string("image",500);
             $table->timestamps();
         });
     }
