@@ -23,7 +23,7 @@ class AddLecturesSeeder extends Seeder
             $newLectures = new Lectures();
 
             $randomSeconds = mt_rand(0, 86399);
-            $randomTime = date('H:i:s', $randomSeconds);
+            $randomTime = date('H:i', $randomSeconds);
 
             $newLectures->name = "lecture_".mt_rand(1,5000);
             $newLectures->description = Str::random(150);
