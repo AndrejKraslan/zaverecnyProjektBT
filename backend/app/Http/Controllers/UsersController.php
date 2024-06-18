@@ -53,4 +53,20 @@ class UsersController extends Controller
 
         return response()->json(['message' => 'The user\'s admin privileges have been revoked.']);
     }
+
+    public function deleteUser(Request $request)
+    {
+        $validated = $request->validate([
+            'user_id' => 'required|exists:users,user_id'
+        ]);
+
+        $user = Users::find($validated['user_id']);
+
+        if ($user) {
+            $user->delete();
+            return response()->json(['message' => 'The user has been deleted.']);
+        } else {
+            return response()->json(['message' => 'User not found.'], 404);
+        }
+    }
 }

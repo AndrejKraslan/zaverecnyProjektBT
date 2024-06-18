@@ -34,23 +34,16 @@
               <router-link class="nav-link" :class="{ active: isActive('/schedule') }" to="/schedule">Schedule</router-link>
             </li>
             <li class="nav-item">
-              <router-link class="nav-link" :class="{ active: isActive('/about') }" to="/sponsors">Sponsors</router-link>
+              <router-link class="nav-link" :class="{ active: isActive('/sponsors') }" to="/sponsors">Sponsors</router-link>
             </li>
-            <li class="nav-item">
-              <router-link class="nav-link" :class="{ active: isActive('/admin') }" to="/admin">User Management</router-link>
-            </li>
-            <li class="nav-item dropdown">
+
+            <li v-if="isAdmin" class="nav-item dropdown">
               <router-link class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Pages
+                Admin pages
               </router-link>
               <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li><router-link class="dropdown-item" to="/about">About</router-link></li>
-                <li><router-link class="dropdown-item" to="/accommodation">Accommodation</router-link></li>
-                <li><router-link class="dropdown-item" to="/gallery">Gallery</router-link></li>
-                <li><router-link class="dropdown-item" to="/price-table">Price Table</router-link></li>
-                <li><router-link class="dropdown-item" to="/blog">Blog</router-link></li>
-                <li><router-link class="dropdown-item" to="/blog-single">Blog Single</router-link></li>
-                <li><router-link class="dropdown-item" to="/404">404 Error</router-link></li>
+                <router-link class="nav-link" :class="{ active: isActive('/admin') }" to="/admin">User Management</router-link>
+                <router-link class="nav-link" :class="{ active: isActive('/attendeelist') }" to="/attendeelist">Attendee List</router-link>
               </ul>
             </li>
             <li class="nav-item">
@@ -58,7 +51,7 @@
             </li>
           </ul>
           <div v-if="isAuthenticated">
-            <router-link class="btn btn-primary me-2" to="/reserve">Reserve Seat</router-link>
+            <router-link class="btn btn-primary me-2" to="/schedule">Reserve Seat</router-link>
             <button class="btn btn-primary" @click="handleLogout">Log Out</button>
           </div>
           <div v-else>
@@ -73,11 +66,30 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
+import axios from "@/plugins/axios.js";
 
 export default {
   name: 'Navbar',
+  data() {
+    return {
+      isAdmin: false,
+    };
+  },
   computed: {
-    ...mapGetters(['isAuthenticated'])
+    ...mapGetters(['isAuthenticated', 'user']),
+  },
+  watch: {
+    user(newUser) {
+      this.isAdmin = newUser && newUser.isAdmin;
+    },
+    isAuthenticated(newValue) {
+      if (newValue) {
+        this.checkAdminStatus();
+      } else {
+        this.isAdmin = false;
+        this.$router.push('/');
+      }
+    }
   },
   methods: {
     ...mapActions(['logout']),
@@ -89,15 +101,21 @@ export default {
       this.$router.push('/');
       // Refresh the page to update the navbar
       window.location.reload();
-    }
-  },
-  watch: {
-    isAuthenticated(newValue) {
-      if (!newValue) {
-        this.$router.push('/');
+    },
+    async checkAdminStatus() {
+      try {
+        const response = await axios.get('/user');
+        this.isAdmin = response.data.is_admin === 1;
+      } catch (error) {
+        console.error('Error checking admin status:', error);
       }
     }
-  }
+  },
+  created() {
+    if (this.isAuthenticated) {
+      this.checkAdminStatus();
+    }
+  },
 }
 </script>
 

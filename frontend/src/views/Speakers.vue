@@ -106,7 +106,6 @@ const saveSpeaker = async (updatedSpeaker) => {
       speakers.value[index] = response.data;
     }
     closeEditModal();
-    window.location.reload();
   } catch (error) {
     console.error('Error updating speaker:', error);
     if (error.response) {

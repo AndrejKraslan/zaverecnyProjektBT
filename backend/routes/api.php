@@ -56,6 +56,7 @@ Route::delete('/delete_comment/{id}',[CommentsController::class,'delete']);
 Route::delete('/delete_lecture/{id}',[LecturesController::class,'delete']);
 Route::delete('/delete_sponsor/{id}',[SponsorsController::class,'delete']);
 Route::delete('/delete_stage/{id}',[StagesController::class,'delete']);
+Route::delete('/user', [UsersController::class, 'deleteUser']);
 Route::delete('/delete_user_has_lecture/{id}',[UsersHasLecturesController::class,'delete']); // mozno nebude treba
 
 

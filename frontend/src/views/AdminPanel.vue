@@ -1,5 +1,5 @@
 <template>
-  <div class="container mt-5">
+  <div class="container mt-5" v-if="isAdmin">
     <h2>Správa používateľov</h2>
     <input type="text" v-model="searchTerm" placeholder="Vyhľadávanie..." class="form-control mb-3" />
     <table class="table table-bordered mt-3">
@@ -11,6 +11,7 @@
         <th>Email</th>
         <th>Admin</th>
         <th>Pridať/Odstrániť</th>
+        <th>Odstrániť</th>
       </tr>
       </thead>
       <tbody>
@@ -24,25 +25,32 @@
           <button class="btn btn-primary" @click="makeAdmin(user.ID)" v-if="!user.Admin">Pridať ako admina</button>
           <button class="btn btn-danger" @click="removeAdmin(user.ID)" v-if="user.Admin">Odstrániť admina</button>
         </td>
+        <td>
+          <button class="btn btn-danger" @click="deleteUser(user.ID)">Odstrániť</button>
+        </td>
       </tr>
       </tbody>
     </table>
   </div>
+  <div v-else>
+    <p>Access Denied</p>
+  </div>
 </template>
 
 <script>
-import axios from 'axios';
+import axios from '@/plugins/axios.js';
 
 export default {
   name: 'AdminPanel',
   data() {
     return {
       users: [],
-      searchTerm: ''
+      searchTerm: '',
+      isAdmin: false
     };
   },
   created() {
-    this.fetchUsers();
+    this.checkAdminStatus();
   },
   computed: {
     filteredUsers() {
@@ -58,8 +66,7 @@ export default {
   methods: {
     async fetchUsers() {
       try {
-        const response = await axios.get('http://localhost/zaverecnyProjektBT/backend/public/api/users');
-        console.log('API Response:', response.data);
+        const response = await axios.get('/users');
         if (response.headers['content-type'].includes('application/json')) {
           this.users = response.data;
         } else {
@@ -70,23 +77,38 @@ export default {
       }
     },
     async makeAdmin(userId) {
-      console.log('Making user admin:', userId);
       try {
-        const response = await axios.post('http://localhost/zaverecnyProjektBT/backend/public/api/make_admin', { user_id: userId });
-        console.log('Make Admin Response:', response.data);
+        await axios.post('/make_admin', {user_id: userId});
         this.fetchUsers();
       } catch (error) {
         console.error('Error making admin:', error);
       }
     },
     async removeAdmin(userId) {
-      console.log('Removing admin:', userId);
       try {
-        const response = await axios.post('http://localhost/zaverecnyProjektBT/backend/public/api/remove_admin', { user_id: userId });
-        console.log('Remove Admin Response:', response.data);
-        this.fetchUsers(); // Refresh
+        await axios.post('/remove_admin', {user_id: userId});
+        this.fetchUsers();
       } catch (error) {
         console.error('Error removing admin:', error);
+      }
+    },
+    async deleteUser(userId) {
+      try {
+        await axios.delete('/user', {data: {user_id: userId}});
+        this.fetchUsers();
+      } catch (error) {
+        console.error('Error deleting user:', error);
+      }
+    },
+    async checkAdminStatus() {
+      try {
+        const response = await axios.get('/user');
+        this.isAdmin = response.data.is_admin === 1;
+        if (this.isAdmin) {
+          this.fetchUsers();
+        }
+      } catch (error) {
+        console.error('Error checking admin status:', error);
       }
     }
   }
@@ -94,5 +116,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>

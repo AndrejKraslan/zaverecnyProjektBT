@@ -109,7 +109,7 @@
 
 <script>
 import { ref } from 'vue';
-import axios from '@/plugins/axios.js'; // Použite našu axios inštanciu
+import axios from '@/plugins/axios.js';
 import SpeakerModal from '@/components/SpeakerModal.vue';
 import AddStageModal from '@/components/AddStageModal.vue';
 import AddLectureModal from '@/components/AddLectureModal.vue';
