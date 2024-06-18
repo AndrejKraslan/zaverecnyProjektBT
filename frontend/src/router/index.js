@@ -5,6 +5,7 @@ import Register from '../views/Register.vue';
 import Sponsors from "@/views/Sponsors.vue";
 import Schedule from "@/views/Schedule.vue";
 import Speakers from "@/views/Speakers.vue";
+import AdminPanel from "@/views/AdminPanel.vue"; // Import AdminPanel
 
 const routes = [
   { path: '/', name: 'home', component: HomeView },
@@ -13,6 +14,7 @@ const routes = [
   { path: '/login', name: 'login', component: Login, meta: { guest: true } },
   { path: '/register', name: 'register', component: Register, meta: { guest: true } },
   { path: '/schedule', name: 'schedule', component: Schedule },
+  { path: '/admin', name: 'admin', component: AdminPanel, meta: { requiresAuth: true } } // Add AdminPanel route
 ];
 
 const router = createRouter({

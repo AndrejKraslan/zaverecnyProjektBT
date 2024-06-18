@@ -36,6 +36,9 @@
             <li class="nav-item">
               <router-link class="nav-link" :class="{ active: isActive('/about') }" to="/sponsors">Sponsors</router-link>
             </li>
+            <li class="nav-item">
+              <router-link class="nav-link" :class="{ active: isActive('/admin') }" to="/admin">User Management</router-link>
+            </li>
             <li class="nav-item dropdown">
               <router-link class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 Pages
