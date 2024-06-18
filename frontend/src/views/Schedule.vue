@@ -11,7 +11,7 @@
             :class="{ 'active': activeStage === stage.ID }"
             @click="selectStage(stage.ID)"
         >
-          {{ stage.Name }} - {{ formatStageDate(stage.Date) }}
+          {{ stage.Name }} - {{ formatStageDate(stage.Date) }} (Room: {{ stage.Room }})
           <button v-if="isAdmin" @click.stop="deleteStage(stage.ID)" class="btn btn-danger btn-sm">Delete</button>
         </div>
         <div v-if="isAdmin">
@@ -47,16 +47,18 @@
                     />
                     <div class="speaker-details">
                       <h5>{{ speaker.Name }}</h5>
-                      <p>{{ speaker.Description_Short }}</p>
+                      <p>{{ speaker.DescriptionShort }}</p>
                       <button v-if="isAdmin" @click.stop="removeSpeakerFromLecture(speaker.ID, event.ID)" class="btn btn-danger btn-sm">Remove</button>
                     </div>
                   </div>
                 </div>
-                <div v-if="isUserRegistered(event.ID)">
-                  <button @click="unregisterFromLecture(event.ID)" class="btn btn-warning btn-sm">Unregister</button>
-                </div>
-                <div v-else>
-                  <button @click="registerForLecture(event.ID)" class="btn btn-success btn-sm">Register</button>
+                <div v-if="isLoggedIn">
+                  <div v-if="isUserRegistered(event.ID)">
+                    <button @click="unregisterFromLecture(event.ID)" class="btn btn-warning btn-sm">Unregister</button>
+                  </div>
+                  <div v-else>
+                    <button @click="registerForLecture(event.ID)" class="btn btn-success btn-sm">Register</button>
+                  </div>
                 </div>
                 <div v-if="isAdmin">
                   <button @click.stop="editLecture(event)" class="btn btn-secondary btn-sm">Edit</button>
@@ -101,6 +103,7 @@
         :speaker="selectedSpeaker"
         @close="closeModal"
     />
+    <div v-if="message" class="alert alert-danger">{{ message }}</div>
   </div>
 </template>
 
@@ -123,11 +126,13 @@ export default {
       selectedEvent: null,
       selectedSpeaker: null,
       isAdmin: false,
+      isLoggedIn: false,
       showAddStageModal: false,
       showAddLectureModal: false,
       showEditLectureModal: false,
       currentLecture: null,
       userLectures: [],
+      message: null,
     };
   },
   computed: {
@@ -230,8 +235,8 @@ export default {
         image: lecture.Image,
         capacity: lecture.Capacity,
         max_capacity: lecture.MaxCapacity,
-        start: this.formatDateForPayload(lecture.Start),
-        end: this.formatDateForPayload(lecture.End),
+        start: lecture.Start,
+        end: lecture.End,
         stage_id: lecture.StageID
       };
       axios
@@ -247,7 +252,8 @@ export default {
           .catch((error) => {
             console.error('Error adding lecture:', error);
             if (error.response) {
-              console.error('Response data:', error.response.data);
+              this.message = error.response.data.message;
+              setTimeout(() => { this.message = null; }, 5000); // Clear the message after 5 seconds
             }
           });
     },
@@ -258,8 +264,8 @@ export default {
         image: lecture.Image,
         capacity: lecture.Capacity,
         max_capacity: lecture.MaxCapacity,
-        start: this.formatDateForPayload(lecture.Start),
-        end: this.formatDateForPayload(lecture.End),
+        start: lecture.Start,
+        end: lecture.End,
         stage_id: lecture.StageID
       };
       axios
@@ -273,6 +279,10 @@ export default {
           })
           .catch((error) => {
             console.error('Error updating lecture:', error);
+            if (error.response) {
+              this.message = error.response.data.message;
+              setTimeout(() => { this.message = null; }, 5000); // Clear the message after 5 seconds
+            }
           });
     },
     deleteLecture(id) {
@@ -297,6 +307,10 @@ export default {
           })
           .catch((error) => {
             console.error('Error registering for lecture:', error);
+            if (error.response) {
+              this.message = error.response.data.message;
+              setTimeout(() => { this.message = null; }, 5000); // Clear the message after 5 seconds
+            }
           });
     },
     unregisterFromLecture(lectureId) {
@@ -311,6 +325,10 @@ export default {
           })
           .catch((error) => {
             console.error('Error unregistering from lecture:', error);
+            if (error.response) {
+              this.message = error.response.data.message;
+              setTimeout(() => { this.message = null; }, 5000); // Clear the message after 5 seconds
+            }
           });
     },
     isUserRegistered(lectureId) {
@@ -329,6 +347,12 @@ export default {
           })
           .catch((error) => {
             console.error('Error assigning speaker:', error);
+            if (error.response) {
+              this.message = error.response.data.message;
+              setTimeout(() => {
+                this.message = null;
+              }, 5000); // Clear the message after 5 seconds
+            }
           });
     },
     removeSpeakerFromLecture(speakerId, lectureId) {
@@ -347,7 +371,7 @@ export default {
           });
     },
     editLecture(lecture) {
-      this.currentLecture = { ...lecture }; // Ensure we pass a copy to avoid direct mutations
+      this.currentLecture = {...lecture}; // Ensure we pass a copy to avoid direct mutations
       this.showEditLectureModal = true;
     },
     checkAdminStatus() {
@@ -355,20 +379,11 @@ export default {
           .get('/user')
           .then((response) => {
             this.isAdmin = response.data.is_admin === 1;
+            this.isLoggedIn = true; // Assuming that if we get a user response, the user is logged in
           })
           .catch((error) => {
             console.error('Error checking admin status:', error);
           });
-    },
-    formatDateForPayload(datetime) {
-      const date = new Date(datetime);
-      const year = date.getFullYear();
-      const month = String(date.getMonth() + 1).padStart(2, '0');
-      const day = String(date.getDate()).padStart(2, '0');
-      const hours = String(date.getHours()).padStart(2, '0');
-      const minutes = String(date.getMinutes()).padStart(2, '0');
-      const seconds = '00'; // Pokud nechceme sekundy, můžeme je nastavit na '00'
-      return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
     },
   },
   created() {
@@ -391,20 +406,24 @@ export default {
 .schedule {
   font-family: Arial, sans-serif;
 }
+
 .header {
   background-color: #00535D;
   color: white;
   padding: 20px;
   text-align: left;
 }
+
 .content {
   display: flex;
 }
+
 .stage-selector {
   width: 25%;
   background-color: #062B34;
   padding: 20px;
 }
+
 .stage-selector div {
   padding: 15px;
   color: white;
@@ -412,15 +431,18 @@ export default {
   margin-bottom: 5px;
   font-size: 16px;
 }
+
 .stage-selector .active {
   background-color: #1abc9c;
   font-weight: bold;
 }
+
 .schedule-details {
   width: 75%;
   padding: 20px;
   background-color: #F7F7F7;
 }
+
 .event {
   margin-bottom: 20px;
   background-color: white;
@@ -429,44 +451,60 @@ export default {
   padding: 20px;
   cursor: pointer;
 }
+
 .event .time {
   font-weight: bold;
   font-size: 16px;
   color: #333;
 }
+
 .event .details h3 {
   margin: 5px 0;
   font-size: 18px;
   color: #00535D;
 }
+
 .event .details p {
   color: #555;
 }
+
 .speakers {
   display: flex;
   flex-wrap: wrap;
   cursor: pointer;
 }
+
 .speaker {
   margin-right: 20px;
   margin-bottom: 20px;
   text-align: center;
 }
+
 .speaker img {
   max-width: 100px;
   border-radius: 50%;
 }
+
 .speaker-details {
   margin-top: 10px;
 }
+
 .speaker-details h5 {
   margin: 0;
   font-size: 16px;
   color: #333;
 }
+
 .speaker-details p {
   margin: 0;
   color: #777;
   font-size: 14px;
+}
+
+.alert {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
 }
 </style>
