@@ -2,12 +2,14 @@ import { createRouter, createWebHistory } from 'vue-router';
 import HomeView from '../views/HomeView.vue';
 import Login from '../views/Login.vue';
 import Register from '../views/Register.vue';
-import AboutView from "@/views/AboutView.vue";
+import Sponsors from "@/views/Sponsors.vue";
 import Schedule from "@/views/Schedule.vue";
+import Speakers from "@/views/Speakers.vue";
 
 const routes = [
   { path: '/', name: 'home', component: HomeView },
-  { path: '/speakers', name: 'speakers', component: AboutView, meta: {requiresAuth : true } },
+  { path: '/speakers', name: 'speakers', component: Speakers },
+  { path: '/sponsors', name: 'sponsors', component: Sponsors },
   { path: '/login', name: 'login', component: Login, meta: { guest: true } },
   { path: '/register', name: 'register', component: Register, meta: { guest: true } },
   { path: '/schedule', name: 'schedule', component: Schedule },

@@ -26,8 +26,6 @@ class SpeakersHasLecturesController extends Controller
         return response()->json($speakersLecturesJson);
     }
 
-    // Method to assign a speaker to a lecture
-
     public function register(Request $request)
     {
         // Validate the request data
@@ -68,8 +66,6 @@ class SpeakersHasLecturesController extends Controller
             return response()->json(['message' => 'This speaker is already assigned to another lecture at the specified time.'], 409);
         }
 
-
-
         // Create the new record
         $speakerLecture = SpeakerLecture::create([
             'speaker_id' => $request->speaker_id,
@@ -78,7 +74,6 @@ class SpeakersHasLecturesController extends Controller
 
         return response()->json(['message' => 'Speaker assigned to lecture successfully', 'data' => $speakerLecture], 201);
     }
-
 
     public function cancelRegistration(Request $request)
     {
@@ -102,5 +97,4 @@ class SpeakersHasLecturesController extends Controller
 
         return response()->json(['message' => 'Speaker registration canceled successfully']);
     }
-
 }
