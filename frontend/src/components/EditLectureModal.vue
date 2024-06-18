@@ -1,52 +1,59 @@
 <template>
-  <div class="modal" tabindex="-1" role="dialog" :class="{ show: dialog }" style="display: block;">
-    <div class="modal-dialog" role="document">
+  <div class="modal" tabindex="-1" style="display: block;">
+    <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">Edit Lecture</h5>
-          <button type="button" class="close" @click="close">
-            <span aria-hidden="true">&times;</span>
-          </button>
+          <button type="button" class="btn-close" @click="$emit('close')"></button>
         </div>
         <div class="modal-body">
-          <form>
-            <div class="form-group">
-              <label for="lecture-name">Name</label>
-              <input type="text" class="form-control" id="lecture-name" v-model="editedLecture.Name">
+          <form @submit.prevent="submitLecture">
+            <div class="mb-3">
+              <label for="lectureName" class="form-label">Name</label>
+              <input type="text" class="form-control" id="lectureName" v-model="lecture.Name" required>
             </div>
-            <div class="form-group">
-              <label for="lecture-start">Start</label>
-              <input type="datetime-local" class="form-control" id="lecture-start" v-model="editedLecture.Start">
+            <div class="mb-3">
+              <label for="lectureDescription" class="form-label">Description</label>
+              <textarea class="form-control" id="lectureDescription" v-model="lecture.Description" required></textarea>
             </div>
-            <div class="form-group">
-              <label for="lecture-end">End</label>
-              <input type="datetime-local" class="form-control" id="lecture-end" v-model="editedLecture.End">
+            <div class="mb-3">
+              <label for="lectureImage" class="form-label">Image</label>
+              <input type="text" class="form-control" id="lectureImage" v-model="lecture.Image">
             </div>
-            <div class="form-group">
-              <label for="lecture-stage">Stage</label>
-              <select class="form-control" id="lecture-stage" v-model="editedLecture.StageID">
+            <div class="mb-3">
+              <label for="lectureCapacity" class="form-label">Capacity</label>
+              <input type="number" class="form-control" id="lectureCapacity" v-model="lecture.Capacity" required>
+            </div>
+            <div class="mb-3">
+              <label for="lectureMaxCapacity" class="form-label">Max Capacity</label>
+              <input type="number" class="form-control" id="lectureMaxCapacity" v-model="lecture.MaxCapacity" required>
+            </div>
+            <div class="mb-3">
+              <label for="lectureStart" class="form-label">Start Time</label>
+              <input type="time" class="form-control" id="lectureStart" v-model="lecture.Start" required>
+            </div>
+            <div class="mb-3">
+              <label for="lectureEnd" class="form-label">End Time</label>
+              <input type="time" class="form-control" id="lectureEnd" v-model="lecture.End" required>
+            </div>
+            <div class="mb-3">
+              <label for="lectureStage" class="form-label">Stage</label>
+              <select class="form-select" id="lectureStage" v-model="lecture.StageID" required>
                 <option v-for="stage in stages" :key="stage.ID" :value="stage.ID">
                   {{ stage.Name }}
                 </option>
               </select>
             </div>
-            <div class="form-group">
-              <label for="lecture-speaker">Speaker</label>
-              <select class="form-control" id="lecture-speaker" v-model="editedLecture.SpeakerID">
+            <div class="mb-3">
+              <label for="lectureSpeaker" class="form-label">Speaker</label>
+              <select class="form-select" id="lectureSpeaker" v-model="lecture.SpeakerID">
                 <option v-for="speaker in speakers" :key="speaker.ID" :value="speaker.ID">
                   {{ speaker.Name }}
                 </option>
               </select>
             </div>
-            <div class="form-group">
-              <label for="lecture-description">Description</label>
-              <textarea class="form-control" id="lecture-description" v-model="editedLecture.Description"></textarea>
-            </div>
+            <button type="submit" class="btn btn-primary">Update Lecture</button>
           </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" @click="close">Cancel</button>
-          <button type="button" class="btn btn-primary" @click="save">Save</button>
         </div>
       </div>
     </div>
@@ -55,42 +62,30 @@
 
 <script>
 export default {
-  name: 'EditLectureModal',
   props: {
     dialog: Boolean,
     lecture: Object,
     speakers: Array,
-    stages: Array
-  },
-  data() {
-    return {
-      editedLecture: {...this.lecture}
-    }
-  },
-  watch: {
-    lecture: {
-      handler() {
-        this.editedLecture = {...this.lecture}
-      },
-      deep: true
-    }
+    stages: Array,
   },
   methods: {
-    updateDialog(value) {
-      this.$emit('update:dialog', value);
+    submitLecture() {
+      const updatedLecture = { ...this.lecture };
+      updatedLecture.Start = this.formatTime(this.lecture.Start);
+      updatedLecture.End = this.formatTime(this.lecture.End);
+      this.$emit('edit-lecture', updatedLecture);
     },
-    close() {
-      this.$emit('close')
+    formatTime(time) {
+      // Extract hours and minutes from the time string
+      const [hours, minutes] = time.split(':');
+      return `${hours}:${minutes}`;
     },
-    save() {
-      this.$emit('edit-lecture', this.editedLecture)
-    }
-  }
-}
+  },
+};
 </script>
 
 <style scoped>
-.modal.show {
-  display: block;
+.modal-backdrop {
+  position: static;
 }
 </style>

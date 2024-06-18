@@ -1,56 +1,50 @@
 <template>
-  <div class="modal fade show d-block" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
+  <div class="modal" tabindex="-1" style="display: block;">
+    <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">Add Lecture</h5>
-          <button type="button" class="close" @click="close">
-            <span aria-hidden="true">&times;</span>
-          </button>
+          <button type="button" class="btn-close" @click="$emit('close')"></button>
         </div>
         <div class="modal-body">
-          <form @submit.prevent="save">
-            <div class="form-group">
-              <label for="name">Name</label>
-              <input type="text" v-model="lecture.Name" class="form-control" id="name" required>
+          <form @submit.prevent="submitLecture">
+            <div class="mb-3">
+              <label for="lectureName" class="form-label">Name</label>
+              <input type="text" class="form-control" id="lectureName" v-model="lecture.Name" required>
             </div>
-            <div class="form-group">
-              <label for="description">Description</label>
-              <textarea v-model="lecture.Description" class="form-control" id="description" required></textarea>
+            <div class="mb-3">
+              <label for="lectureDescription" class="form-label">Description</label>
+              <textarea class="form-control" id="lectureDescription" v-model="lecture.Description" required></textarea>
             </div>
-            <div class="form-group">
-              <label for="image">Image</label>
-              <input type="text" v-model="lecture.Image" class="form-control" id="image">
+            <div class="mb-3">
+              <label for="lectureImage" class="form-label">Image</label>
+              <input type="text" class="form-control" id="lectureImage" v-model="lecture.Image">
             </div>
-            <div class="form-group">
-              <label for="capacity">Capacity</label>
-              <input type="number" v-model="lecture.Capacity" class="form-control" id="capacity" required>
+            <div class="mb-3">
+              <label for="lectureCapacity" class="form-label">Capacity</label>
+              <input type="number" class="form-control" id="lectureCapacity" v-model="lecture.Capacity" required>
             </div>
-            <div class="form-group">
-              <label for="maxCapacity">Max Capacity</label>
-              <input type="number" v-model="lecture.MaxCapacity" class="form-control" id="maxCapacity" required>
+            <div class="mb-3">
+              <label for="lectureMaxCapacity" class="form-label">Max Capacity</label>
+              <input type="number" class="form-control" id="lectureMaxCapacity" v-model="lecture.MaxCapacity" required>
             </div>
-            <div class="form-group">
-              <label for="start">Start</label>
-              <input type="datetime-local" v-model="lecture.Start" class="form-control" id="start" required>
+            <div class="mb-3">
+              <label for="lectureStart" class="form-label">Start Time</label>
+              <input type="time" class="form-control" id="lectureStart" v-model="lecture.Start" required>
             </div>
-            <div class="form-group">
-              <label for="end">End</label>
-              <input type="datetime-local" v-model="lecture.End" class="form-control" id="end" required>
+            <div class="mb-3">
+              <label for="lectureEnd" class="form-label">End Time</label>
+              <input type="time" class="form-control" id="lectureEnd" v-model="lecture.End" required>
             </div>
-            <div class="form-group">
-              <label for="stage">Stage</label>
-              <select v-model="lecture.StageID" class="form-control" id="stage" required>
-                <option v-for="stage in stages" :key="stage.ID" :value="stage.ID">{{ stage.Name }}</option>
+            <div class="mb-3">
+              <label for="lectureStage" class="form-label">Stage</label>
+              <select class="form-select" id="lectureStage" v-model="lecture.StageID" required>
+                <option v-for="stage in stages" :key="stage.ID" :value="stage.ID">
+                  {{ stage.Name }}
+                </option>
               </select>
             </div>
-            <div class="form-group">
-              <label for="speaker">Speaker</label>
-              <select v-model="lecture.SpeakerID" class="form-control" id="speaker">
-                <option v-for="speaker in speakers" :key="speaker.ID" :value="speaker.ID">{{ speaker.Name }}</option>
-              </select>
-            </div>
-            <button type="submit" class="btn btn-primary">Save</button>
+            <button type="submit" class="btn btn-primary">Add Lecture</button>
           </form>
         </div>
       </div>
@@ -70,59 +64,25 @@ export default {
         Name: '',
         Description: '',
         Image: '',
-        Capacity: null,
-        MaxCapacity: null,
+        Capacity: 0,
+        MaxCapacity: 0,
         Start: '',
         End: '',
         StageID: null,
-        SpeakerID: null,
-      },
+        SpeakerID: null
+      }
     };
   },
   methods: {
-    save() {
-      const newLecture = {
-        Name: this.lecture.Name,
-        Description: this.lecture.Description,
-        Image: this.lecture.Image,
-        Capacity: this.lecture.Capacity,
-        MaxCapacity: this.lecture.MaxCapacity,
-        Start: this.lecture.Start,
-        End: this.lecture.End,
-        StageID: this.lecture.StageID,
-        SpeakerID: this.lecture.SpeakerID,
-      };
-      this.$emit('add-lecture', newLecture);
-    },
-    close() {
-      this.$emit('close');
-    },
-  },
+    submitLecture() {
+      this.$emit('add-lecture', this.lecture);
+    }
+  }
 };
 </script>
 
 <style scoped>
-.modal {
-  display: block;
-  background: rgba(0, 0, 0, 0.6);
-}
-.modal-dialog {
-  max-width: 800px;
-  margin: 1.75rem auto;
-}
-.modal-header {
-  background-color: #00535D;
-  color: white;
-}
-.modal-title {
-  font-size: 1.5rem;
-}
-.modal-body {
-  padding: 20px;
-}
-.modal-footer {
-  display: flex;
-  justify-content: flex-end;
-  padding: 10px 20px;
+.modal-backdrop {
+  position: static;
 }
 </style>
