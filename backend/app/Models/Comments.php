@@ -13,6 +13,5 @@ class Comments extends Model
     protected $fillable = [
         'name',
         'description',
-        'image'
     ];
 }

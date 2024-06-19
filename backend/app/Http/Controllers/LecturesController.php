@@ -21,7 +21,6 @@ class LecturesController extends Controller
                 'MaxCapacity' => $lecture->max_capacity,
                 'Start' => $lecture->start,
                 'End' => $lecture->end,
-                'SpeakerID' => $lecture->speaker_id,
                 'StageID' => $lecture->stage_id,
                 'CreatedAt' => $lecture->created_at,
                 'UpdatedAt' => $lecture->updated_at,
@@ -52,8 +51,8 @@ class LecturesController extends Controller
             'image' => 'nullable|string|max:500',
             'capacity' => 'required|integer',
             'max_capacity' => 'required|integer',
-            'start' => 'required|date_format:Y-m-d H:i:s',
-            'end' => 'required|date_format:Y-m-d H:i:s',
+            'start' => 'required|date_format:H:i',
+            'end' => 'required|date_format:H:i',
             'stage_id' => 'required|integer|exists:stages,stage_id',
         ]);
 
@@ -82,9 +81,8 @@ class LecturesController extends Controller
             'image' => 'nullable|string|max:500',
             'capacity' => 'required|integer',
             'max_capacity' => 'required|integer',
-            'start' => 'required|date_format:Y-m-d H:i:s',
-            'end' => 'required|date_format:Y-m-d H:i:s',
-            'speaker_id' => 'required|integer|exists:speakers,speaker_id',
+            'start' => 'required|date_format:H:i',
+            'end' => 'required|date_format:H:i',
             'stage_id' => 'required|integer|exists:stages,stage_id',
         ]);
 

@@ -26,8 +26,8 @@ class SpeakersHasLecturesController extends Controller
         return response()->json($speakersLecturesJson);
     }
 
-
 // pridelit speakera k prednaske
+
     public function register(Request $request)
     {
         // kontrola ci existuju
@@ -68,9 +68,8 @@ class SpeakersHasLecturesController extends Controller
             return response()->json(['message' => 'This speaker is already assigned to another lecture at the specified time.'], 409);
         }
 
-
-
         // zapis
+
         $speakerLecture = SpeakerLecture::create([
             'speaker_id' => $request->speaker_id,
             'lecture_id' => $request->lecture_id,
@@ -78,7 +77,6 @@ class SpeakersHasLecturesController extends Controller
 
         return response()->json(['message' => 'Speaker assigned to lecture successfully', 'data' => $speakerLecture], 201);
     }
-
 
     public function cancelRegistration(Request $request)
     {
@@ -102,5 +100,4 @@ class SpeakersHasLecturesController extends Controller
 
         return response()->json(['message' => 'Speaker registration canceled successfully']);
     }
-
 }

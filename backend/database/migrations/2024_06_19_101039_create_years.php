@@ -11,10 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('comments', function (Blueprint $table) {
-            $table->id('comment_id');
-            $table->string("name",150);
-            $table->text("description");
+        Schema::create('years', function (Blueprint $table) {
+            $table->id('year_id');
+            $table->integer('year')->unique();
             $table->timestamps();
         });
     }
@@ -24,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('comments');
+        Schema::dropIfExists('years');
     }
 };

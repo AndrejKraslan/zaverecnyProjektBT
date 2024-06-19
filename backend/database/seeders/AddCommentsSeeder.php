@@ -16,10 +16,8 @@ class AddCommentsSeeder extends Seeder
     {
         for ($i = 0; $i<10; $i++){
             $newComments = new Comments();
-            $newComments->name = "comment_".mt_rand(1,5000);
-            $newComments->description = Str::random(200);
-            $newComments->image = Str::random(100);
-
+            $newComments->name = "user_".mt_rand(1,5000);
+            $newComments->description = Str::random(120);
             $newComments->save();}
     }
 }
