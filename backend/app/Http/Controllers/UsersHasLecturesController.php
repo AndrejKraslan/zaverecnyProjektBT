@@ -31,12 +31,16 @@ class UsersHasLecturesController extends Controller
         return response()->json($usersLectureJson);
     }
 
+
+    // prihlasenie usera na prednasku
+
     public function register(Request $request)
     {
-        // Validate the request data
+        // kontrola id
         $validatedData = $request->validate([
             'lecture_id' => 'required|exists:lectures,lecture_id',
         ]);
+
 
         $user = Auth::user();
 
@@ -48,6 +52,7 @@ class UsersHasLecturesController extends Controller
         }
 
         // Check if the user is already registered for this lecture
+
         $existingRegistration = UserLecture::where('user_id', $user->user_id)
             ->where('lecture_id', $validatedData['lecture_id'])
             ->first();
@@ -55,6 +60,8 @@ class UsersHasLecturesController extends Controller
         if ($existingRegistration) {
             return response()->json(['message' => 'You are already registered for this lecture'], 409);
         }
+
+        // kontrola prekrytia
 
         $overlappingLecture = Lectures::whereHas('users', function ($query) use ($user) {
             $query->where('users.user_id', $user->user_id);
@@ -72,6 +79,8 @@ class UsersHasLecturesController extends Controller
         // Increment the capacity
         $requestedLecture->increment('capacity');
 
+        // vtvorit registraciu
+
         $userLecture = UserLecture::create([
             'user_id' => $user->user_id,
             'lecture_id' => $validatedData['lecture_id'],
@@ -82,11 +91,18 @@ class UsersHasLecturesController extends Controller
 
     public function cancelRegistration(Request $request)
     {
+
+        // kontrola existencie
+
         $validatedData = $request->validate([
             'lecture_id' => 'required|exists:lectures,lecture_id',
         ]);
 
+
+        // get user
         $user = Auth::user();
+
+        // najst v medzitabulke zaznam
 
         $registration = UserLecture::where('user_id', $user->user_id)
             ->where('lecture_id', $validatedData['lecture_id'])
@@ -95,6 +111,7 @@ class UsersHasLecturesController extends Controller
         if (!$registration) {
             return response()->json(['message' => 'Registration not found'], 404);
         }
+
 
         $requestedLecture = Lectures::find($validatedData['lecture_id']);
 

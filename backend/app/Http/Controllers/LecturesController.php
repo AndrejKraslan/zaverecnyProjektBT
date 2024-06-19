@@ -56,7 +56,7 @@ class LecturesController extends Controller
             'stage_id' => 'required|integer|exists:stages,stage_id',
         ]);
 
-        // Check for overlapping lectures on the same stage
+        // kontrola prekryvania prednasok
         $overlappingLecture = Lectures::where('stage_id', $validatedData['stage_id'])
             ->where(function ($query) use ($validatedData) {
                 $query->where('start', '<', $validatedData['end'])
@@ -92,7 +92,7 @@ class LecturesController extends Controller
             return response()->json(['message' => 'Lecture not found'], 404);
         }
 
-        // Check for overlapping lectures on the same stage, excluding the current lecture
+        // konrola prekryvania, mimo editovanej
         $overlappingLecture = Lectures::where('stage_id', $validatedData['stage_id'])
             ->where('lecture_id', '!=', $id)
             ->where(function ($query) use ($validatedData) {
