@@ -108,7 +108,6 @@
 </template>
 
 <script>
-import { ref } from 'vue';
 import axios from '@/plugins/axios.js';
 import SpeakerModal from '@/components/SpeakerModal.vue';
 import AddStageModal from '@/components/AddStageModal.vue';
@@ -182,7 +181,7 @@ export default {
       axios
           .get('/users-has-lectures')
           .then((response) => {
-            this.userLectures = response.data;
+            this.userLectures = response.data.map((lecture) => lecture.lecture_id); // Update to store only lecture IDs
           })
           .catch((error) => {
             console.error('Error fetching user lectures:', error);
@@ -202,7 +201,7 @@ export default {
       this.selectedSpeaker = null;
     },
     getImageUrl(imagePath) {
-      return `http://localhost/zaverecnyProjektBT/backend/public/${imagePath}`;
+      return `http://localhost:8888/zaverecnyProjektBT/backend/public/${imagePath}`;
     },
     formatStageDate(datetime) {
       const date = new Date(datetime);
@@ -303,7 +302,7 @@ export default {
           .post('/register_lecture_user', payload)
           .then(() => {
             console.log('Registered successfully');
-            this.fetchUserLectures(); // Refresh user lectures after registration
+            this.userLectures.push(lectureId); // Immediately update the userLectures array
           })
           .catch((error) => {
             console.error('Error registering for lecture:', error);
@@ -321,7 +320,7 @@ export default {
           .post('/cancel_lecture_user', payload)
           .then(() => {
             console.log('Unregistered successfully');
-            this.fetchUserLectures(); // Refresh user lectures after unregistration
+            this.userLectures = this.userLectures.filter(id => id !== lectureId); // Update the userLectures array
           })
           .catch((error) => {
             console.error('Error unregistering from lecture:', error);
@@ -332,7 +331,7 @@ export default {
           });
     },
     isUserRegistered(lectureId) {
-      return this.userLectures.some((userLecture) => userLecture.lecture === lectureId);
+      return this.userLectures.includes(lectureId); // Check if lecture ID is in the userLectures array
     },
     assignSpeakerToLecture(speakerId, lectureId) {
       const payload = {
@@ -371,7 +370,7 @@ export default {
           });
     },
     editLecture(lecture) {
-      this.currentLecture = {...lecture}; // Ensure we pass a copy to avoid direct mutations
+      this.currentLecture = { ...lecture }; // Ensure we pass a copy to avoid direct mutations
       this.showEditLectureModal = true;
     },
     checkAdminStatus() {
@@ -380,6 +379,7 @@ export default {
           .then((response) => {
             this.isAdmin = response.data.is_admin === 1;
             this.isLoggedIn = true; // Assuming that if we get a user response, the user is logged in
+            this.fetchUserLectures(); // Fetch user lectures after confirming login
           })
           .catch((error) => {
             console.error('Error checking admin status:', error);
@@ -390,7 +390,6 @@ export default {
     this.fetchStages();
     this.fetchLectures();
     this.fetchSpeakers();
-    this.fetchUserLectures();
     this.checkAdminStatus();
   },
   components: {
@@ -401,6 +400,8 @@ export default {
   },
 };
 </script>
+
+
 
 <style scoped>
 .schedule {

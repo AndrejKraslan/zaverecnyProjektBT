@@ -6,7 +6,9 @@ import Sponsors from "@/views/Sponsors.vue";
 import Schedule from "@/views/Schedule.vue";
 import Speakers from "@/views/Speakers.vue";
 import AdminPanel from "@/views/AdminPanel.vue";
-import AttendeeList from "@/views/AttendeeList.vue"; // Import AdminPanel
+import AttendeeList from "@/views/AttendeeList.vue";
+import Comments from "@/views/Comments.vue";
+import Gallery from "@/views/Gallery.vue";
 
 const routes = [
   { path: '/', name: 'home', component: HomeView },
@@ -16,7 +18,9 @@ const routes = [
   { path: '/register', name: 'register', component: Register, meta: { guest: true } },
   { path: '/schedule', name: 'schedule', component: Schedule },
   { path: '/admin', name: 'admin', component: AdminPanel, meta: { requiresAuth: true } },
-  { path: '/attendeelist', name: 'attendeelist', component: AttendeeList, meta: { requiresAuth: true } }
+  { path: '/attendeelist', name: 'attendeelist', component: AttendeeList, meta: { requiresAuth: true } },
+  { path: '/gallery', name: 'gallery', component: Gallery},
+  { path: '/comments', name: 'comments', component: Comments}
 ];
 
 const router = createRouter({

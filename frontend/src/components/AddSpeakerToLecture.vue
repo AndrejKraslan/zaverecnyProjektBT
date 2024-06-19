@@ -37,7 +37,7 @@ export default {
   methods: {
     async submitForm() {
       try {
-        const response = await fetch('http://localhost/zaverecnyProjektBT/backend/public/api/register_lecture_speaker', {
+        const response = await fetch('http://localhost:8888/zaverecnyProjektBT/backend/public/api/register_lecture_speaker', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

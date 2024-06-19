@@ -43,7 +43,7 @@ const props = defineProps({
 });
 
 const getImageUrl = (imagePath) => {
-  return `http://localhost/zaverecnyProjektBT/backend/public/${imagePath}`;
+  return `http://localhost:8888/zaverecnyProjektBT/backend/public/${imagePath}`;
 };
 </script>
 

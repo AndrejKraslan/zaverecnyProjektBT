@@ -7,9 +7,9 @@ use Illuminate\Http\Request;
 
 class ImagesController extends Controller
 {
-    public function index($id)
+    public function index($year_id)
     {
-        $images = Images::where('year_id', $id)->get();
+        $images = Images::where('year_id', $year_id)->get();
 
         return response()->json($images);
     }
@@ -17,19 +17,26 @@ class ImagesController extends Controller
     public function create(Request $request)
     {
         $validatedData = $request->validate([
-            'image' => 'required|string|max:500',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:5120',  // Uistite sa, že image validácia je nastavená správne
             'year_id' => 'required|exists:years,year_id',
         ]);
 
-        $image = Images::create($validatedData);
+        // Uloženie obrázka
+        $path = $request->file('image')->store('images', 'public');
+
+        $image = Images::create([
+            'image' => $path,
+            'year_id' => $request->year_id,
+        ]);
 
         return response()->json($image, 201);
     }
 
+
     public function update(Request $request, $id)
     {
         $validatedData = $request->validate([
-            'image' => 'required|string|max:500',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:5120',
             'year_id' => 'required|exists:years,year_id',
         ]);
 
@@ -56,5 +63,4 @@ class ImagesController extends Controller
 
         return response()->json(['message' => 'Image deleted successfully']);
     }
-
 }
