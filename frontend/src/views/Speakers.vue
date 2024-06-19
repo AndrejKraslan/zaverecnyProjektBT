@@ -101,6 +101,7 @@ const saveSpeaker = async (updatedSpeaker) => {
     console.log('Payload to Save:', payload); // Log the payload before sending
     const response = await axios.put(`/update_speaker/${updatedSpeaker.ID}`, payload);
     console.log('Response:', response.data); // Log the response data
+    fetchSpeakers();
     const index = speakers.value.findIndex(speaker => speaker.ID === updatedSpeaker.ID);
     if (index !== -1) {
       speakers.value[index] = response.data;

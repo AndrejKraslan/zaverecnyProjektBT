@@ -11,7 +11,7 @@ class UsersHasLecturesController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:sanctum')->only(['register']);
+        $this->middleware('auth:sanctum')->only(['register', 'cancelRegistration']);
     }
 
     public function index()
@@ -38,10 +38,15 @@ class UsersHasLecturesController extends Controller
             'lecture_id' => 'required|exists:lectures,lecture_id',
         ]);
 
-
         $user = Auth::user();
 
         $requestedLecture = Lectures::find($validatedData['lecture_id']);
+
+        // Check if the lecture has reached its maximum capacity
+        if ($requestedLecture->capacity >= $requestedLecture->max_capacity) {
+            return response()->json(['message' => 'Lecture has reached its maximum capacity'], 409);
+        }
+
         // Check if the user is already registered for this lecture
         $existingRegistration = UserLecture::where('user_id', $user->user_id)
             ->where('lecture_id', $validatedData['lecture_id'])
@@ -50,6 +55,7 @@ class UsersHasLecturesController extends Controller
         if ($existingRegistration) {
             return response()->json(['message' => 'You are already registered for this lecture'], 409);
         }
+
         $overlappingLecture = Lectures::whereHas('users', function ($query) use ($user) {
             $query->where('users.user_id', $user->user_id);
         })
@@ -63,6 +69,8 @@ class UsersHasLecturesController extends Controller
             return response()->json(['message' => 'You are already registered for a lecture that overlaps with the requested lecture'], 409);
         }
 
+        // Increment the capacity
+        $requestedLecture->increment('capacity');
 
         $userLecture = UserLecture::create([
             'user_id' => $user->user_id,
@@ -86,6 +94,13 @@ class UsersHasLecturesController extends Controller
 
         if (!$registration) {
             return response()->json(['message' => 'Registration not found'], 404);
+        }
+
+        $requestedLecture = Lectures::find($validatedData['lecture_id']);
+
+        // Decrement the capacity
+        if ($requestedLecture->capacity > 0) {
+            $requestedLecture->decrement('capacity');
         }
 
         $registration->delete();
