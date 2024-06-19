@@ -202,7 +202,7 @@ export default {
       this.selectedSpeaker = null;
     },
     getImageUrl(imagePath) {
-      return `http://localhost/zaverecnyProjektBT/backend/public/${imagePath}`;
+      return `http://localhost:8888/zaverecnyProjektBT/backend/public/${imagePath}`;
     },
     formatStageDate(datetime) {
       const date = new Date(datetime);
