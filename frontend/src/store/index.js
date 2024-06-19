@@ -28,9 +28,15 @@ const store = createStore({
                 console.error(error);
             }
         },
-        logout({ commit }) {
-            commit('CLEAR_TOKEN');
-            commit('SET_USER', null);
+        async logout({ commit }) {
+            try {
+                await axios.get('/logout');
+            } catch (error) {
+                console.error('Error logging out:', error);
+            } finally {
+                commit('CLEAR_TOKEN');
+                commit('SET_USER', null);
+            }
         },
     },
     getters: {
