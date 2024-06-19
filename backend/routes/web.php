@@ -16,10 +16,5 @@ use App\Http\Controllers\UsersController;
 |
 */
 
-Route::get('/', function () {
-    Route::post('/register', [RegistrationController::class, 'register'])->name('register');
-    Route::post('/login', [LoginController::class, 'login']);
-    return view('welcome');
 
-});
 
