@@ -31,7 +31,7 @@ class AddLecturesSeeder extends Seeder
             $imageIndex = mt_rand(0,15);
             $newLectures->image = "speaker{$imageIndex}.webp";
 
-            $newLectures->capacity = mt_rand(1, 100);
+            //$newLectures->capacity = 0;
             $newLectures->max_capacity = mt_rand(100, 200);
             $newLectures->start = $randomTime;
             $newLectures->end = $randomTime;

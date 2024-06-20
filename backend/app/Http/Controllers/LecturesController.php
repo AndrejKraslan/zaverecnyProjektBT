@@ -49,7 +49,7 @@ class LecturesController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'required|string',
             'image' => 'nullable|string|max:500',
-            'capacity' => 'required|integer',
+            //'capacity' => 'required|integer',
             'max_capacity' => 'required|integer',
             'start' => 'required|date_format:H:i',
             'end' => 'required|date_format:H:i',

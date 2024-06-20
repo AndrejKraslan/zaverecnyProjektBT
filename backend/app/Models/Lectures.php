@@ -15,11 +15,14 @@ class Lectures extends Model
         'name',
         'description',
         'image',
-        'capacity',
         'max_capacity',
         'start',
         'end',
         'stage_id'
+    ];
+
+    protected $attributes = [
+        'capacity' => 0, // default 0
     ];
 
     public function users()
