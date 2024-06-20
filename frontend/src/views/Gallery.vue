@@ -15,6 +15,17 @@
             {{ year.year }}
           </li>
         </ul>
+        <button v-if="isAdmin" class="btn btn-primary mt-3" @click="showAddYearForm = true">Add Year</button>
+        <div v-if="showAddYearForm" class="mt-3">
+          <h4>Add Year</h4>
+          <form @submit.prevent="addYear">
+            <div class="mb-3">
+              <label for="year" class="form-label">Year</label>
+              <input type="number" class="form-control" id="year" v-model="newYear" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+        </div>
       </div>
       <div class="col-md-9">
         <h3>Images from {{ selectedYear }}</h3>
@@ -51,8 +62,6 @@
   </div>
 </template>
 
-
-
 <script>
 import axios from '@/plugins/axios.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -75,7 +84,9 @@ export default {
       showModal: false,
       modalImageSrc: '',
       isAdmin: false,
-      isLoggedIn: false
+      isLoggedIn: false,
+      showAddYearForm: false,
+      newYear: null,
     };
   },
   methods: {
@@ -155,6 +166,18 @@ export default {
           .catch((error) => {
             console.error('Error checking admin status:', error);
           });
+    },
+    async addYear() {
+      try {
+        const response = await axios.post('http://localhost:8888/zaverecnyProjektBT/backend/public/api/create_year', {
+          year: this.newYear
+        });
+        this.years.push(response.data);
+        this.newYear = null;
+        this.showAddYearForm = false;
+      } catch (error) {
+        console.error('Error adding year:', error);
+      }
     }
   },
   created() {
@@ -163,7 +186,6 @@ export default {
   }
 };
 </script>
-
 
 <style scoped>
 .list-group-item {
@@ -186,4 +208,3 @@ export default {
   background-color: #ccc;
 }
 </style>
-

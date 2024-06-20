@@ -232,7 +232,6 @@ export default {
         name: lecture.Name,
         description: lecture.Description,
         image: lecture.Image,
-        capacity: lecture.Capacity,
         max_capacity: lecture.MaxCapacity,
         start: lecture.Start,
         end: lecture.End,
@@ -261,7 +260,6 @@ export default {
         name: lecture.Name,
         description: lecture.Description,
         image: lecture.Image,
-        capacity: lecture.Capacity,
         max_capacity: lecture.MaxCapacity,
         start: lecture.Start,
         end: lecture.End,
@@ -467,6 +465,8 @@ export default {
 
 .event .details p {
   color: #555;
+  word-wrap: break-word;
+  white-space: pre-wrap;
 }
 
 .speakers {

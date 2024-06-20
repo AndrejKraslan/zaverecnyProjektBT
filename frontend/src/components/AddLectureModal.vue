@@ -21,10 +21,6 @@
               <input type="text" class="form-control" id="lectureImage" v-model="lecture.Image">
             </div>
             <div class="mb-3">
-              <label for="lectureCapacity" class="form-label">Capacity</label>
-              <input type="number" class="form-control" id="lectureCapacity" v-model="lecture.Capacity" required>
-            </div>
-            <div class="mb-3">
               <label for="lectureMaxCapacity" class="form-label">Max Capacity</label>
               <input type="number" class="form-control" id="lectureMaxCapacity" v-model="lecture.MaxCapacity" required>
             </div>
