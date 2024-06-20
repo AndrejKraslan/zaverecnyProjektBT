@@ -51,9 +51,9 @@ export default {
     return {
       email: '',
       miniGalleryImages: [
-        'http://localhost:8888/zaverecnyProjektBT/backend/public/storage/images/image1.jpg',
-        'http://localhost:8888/zaverecnyProjektBT/backend/public/storage/images/image1.jpg',
-        'http://localhost:8888/zaverecnyProjektBT/backend/public/storage/images/image1.jpg'
+        'http://localhost/zaverecnyProjektBT/backend/public/storage/images/image1.jpg',
+        'http://localhost/zaverecnyProjektBT/backend/public/storage/images/image1.jpg',
+        'http://localhost/zaverecnyProjektBT/backend/public/storage/images/image1.jpg'
       ]
     };
   },

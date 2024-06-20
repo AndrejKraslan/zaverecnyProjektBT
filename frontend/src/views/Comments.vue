@@ -59,7 +59,7 @@ import axios from '@/plugins/axios.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 
-axios.defaults.baseURL = 'http://localhost:8888/zaverecnyProjektBT/backend/public/api';
+axios.defaults.baseURL = 'http://localhost/zaverecnyProjektBT/backend/public/api';
 
 export default {
   name: "Comments",

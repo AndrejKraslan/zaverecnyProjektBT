@@ -81,7 +81,7 @@ export default {
   methods: {
     async fetchYears() {
       try {
-        const response = await axios.get('http://localhost:8888/zaverecnyProjektBT/backend/public/api/years');
+        const response = await axios.get('http://localhost/zaverecnyProjektBT/backend/public/api/years');
         this.years = response.data;
         console.log("Years fetched:", this.years);
       } catch (error) {
@@ -90,7 +90,7 @@ export default {
     },
     async fetchImages(year_id) {
       try {
-        const response = await axios.get(`http://localhost:8888/zaverecnyProjektBT/backend/public/api/images/${year_id}`);
+        const response = await axios.get(`http://localhost/zaverecnyProjektBT/backend/public/api/images/${year_id}`);
         this.images = response.data;
         console.log("Images fetched for year_id", year_id, ":", this.images);
       } catch (error) {
@@ -106,7 +106,7 @@ export default {
       }
     },
     getImageUrl(imagePath) {
-      return `http://localhost:8888/zaverecnyProjektBT/backend/public/storage/${imagePath}`;
+      return `http://localhost/zaverecnyProjektBT/backend/public/storage/${imagePath}`;
     },
     onFileChange(e) {
       this.newImage = e.target.files[0];
@@ -117,7 +117,7 @@ export default {
         formData.append('image', this.newImage);
         formData.append('year_id', this.newImageYearId);
 
-        await axios.post('http://localhost:8888/zaverecnyProjektBT/backend/public/api/create_image', formData, {
+        await axios.post('http://localhost/zaverecnyProjektBT/backend/public/api/create_image', formData, {
           headers: {
             'Content-Type': 'multipart/form-data'
           }
@@ -132,7 +132,7 @@ export default {
     },
     async deleteImage(id) {
       try {
-        await axios.delete(`http://localhost:8888/zaverecnyProjektBT/backend/public/api/delete_image/${id}`);
+        await axios.delete(`http://localhost/zaverecnyProjektBT/backend/public/api/delete_image/${id}`);
         this.fetchImages(this.newImageYearId);
       } catch (error) {
         console.error('Error deleting image:', error);

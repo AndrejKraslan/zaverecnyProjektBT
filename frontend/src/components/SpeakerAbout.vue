@@ -31,7 +31,7 @@ const selectedSpeaker = ref(null);
 
 const fetchSpeakers = async () => {
   try {
-    const response = await axios.get('http://localhost:8888/zaverecnyProjektBT/backend/public/api/speakers');
+    const response = await axios.get('http://localhost/zaverecnyProjektBT/backend/public/api/speakers');
     speakers.value = response.data;
   } catch (error) {
     console.error('Error fetching speakers:', error);
@@ -48,7 +48,7 @@ const firstFourSpeakers = computed(() => {
 });
 
 const getImageUrl = (imagePath) => {
-  return `http://localhost:8888/zaverecnyProjektBT/backend/public/${imagePath}`;
+  return `http://localhost/zaverecnyProjektBT/backend/public/${imagePath}`;
 };
 
 fetchSpeakers();
