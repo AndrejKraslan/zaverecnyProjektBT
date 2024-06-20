@@ -17,7 +17,7 @@ class ImagesController extends Controller
     public function create(Request $request)
     {
         $validatedData = $request->validate([
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:5120',  // Uistite sa, že image validácia je nastavená správne
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:5120',  // povolene formaty
             'year_id' => 'required|exists:years,year_id',
         ]);
 
