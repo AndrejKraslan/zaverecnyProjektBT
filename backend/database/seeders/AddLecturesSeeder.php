@@ -25,13 +25,13 @@ class AddLecturesSeeder extends Seeder
             $randomSeconds = mt_rand(0, 86399);
             $randomTime = date('H:i', $randomSeconds);
 
-            $newLectures->name = "lecture_".mt_rand(1,5000);
+            $newLectures->name = "Lecture_".$i;
             $newLectures->description = Str::random(150);
             // obrazok
             $imageIndex = mt_rand(0,15);
             $newLectures->image = "speaker{$imageIndex}.webp";
 
-            $newLectures->capacity = mt_rand(1, 100);
+            //$newLectures->capacity = 0;
             $newLectures->max_capacity = mt_rand(100, 200);
             $newLectures->start = $randomTime;
             $newLectures->end = $randomTime;

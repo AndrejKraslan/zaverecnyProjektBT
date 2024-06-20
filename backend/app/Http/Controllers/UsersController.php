@@ -38,7 +38,7 @@ class UsersController extends Controller
         $user->is_admin = 1;
         $user->save();
 
-        return response()->json(['message' => 'The user has been granted admin privileges.']);
+        return response()->json(['message' => 'The user has been given admin privileges.']);
     }
 
     public function removeAdmin(Request $request)

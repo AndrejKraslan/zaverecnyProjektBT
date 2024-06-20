@@ -4,6 +4,9 @@
       <h1>PARTNERI</h1>
     </div>
     <div class="content container mt-4">
+      <div v-if="isAdmin" class="text-center mt-4">
+        <button @click="showAddSponsorModal = true" class="btn btn-primary">Add Sponsor</button>
+      </div>
       <div class="row">
         <div
             v-for="sponsor in sponsors"
@@ -27,9 +30,6 @@
             </div>
           </div>
         </div>
-      </div>
-      <div v-if="isAdmin" class="text-center mt-4">
-        <button @click="showAddSponsorModal = true" class="btn btn-primary">Add Sponsor</button>
       </div>
     </div>
     <AddSponsorModal
@@ -73,7 +73,7 @@ export default {
           });
     },
     getImageUrl(imagePath) {
-      return `http://localhost/zaverecnyProjektBT/backend/public/${imagePath}`;
+      return `http://localhost:8888/zaverecnyProjektBT/backend/public/${imagePath}`;
     },
     addSponsor(sponsor) {
       const payload = {

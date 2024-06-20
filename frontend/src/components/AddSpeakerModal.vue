@@ -77,7 +77,7 @@ export default {
   methods: {
     addSpeaker() {
       console.log('Adding speaker:', this.formData);
-      axios.post('http://localhost/zaverecnyProjektBT/backend/public/api/create_speaker', {
+      axios.post('http://localhost:8888/zaverecnyProjektBT/backend/public/api/create_speaker', {
         name: this.formData.Name,
         description_short: this.formData.Description_Short,
         description_long: this.formData.Description_Long,

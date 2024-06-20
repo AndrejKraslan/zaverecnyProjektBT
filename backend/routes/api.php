@@ -38,6 +38,7 @@ Route::get('/years',[YearsController::class,'index']);
 Route::get('/users-has-lectures',[UsersHasLecturesController::class,'index']);
 Route::get('/images/{id}',[ImagesController::class,'index']);
 
+
 // CREATE routes
 Route::post('/create_speaker',[SpeakersController::class,'create']);
 Route::post('/create_comment',[CommentsController::class,'create']);

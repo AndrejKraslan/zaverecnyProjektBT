@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('comments', function (Blueprint $table) {
             $table->id('comment_id');
-            $table->string("name",150);
-            $table->text("description");
+            $table->string('name');
+            $table->text('description');
+            $table->string('image')->nullable();
             $table->timestamps();
         });
     }

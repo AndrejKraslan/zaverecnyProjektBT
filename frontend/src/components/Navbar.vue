@@ -36,18 +36,17 @@
             <li class="nav-item">
               <router-link class="nav-link" :class="{ active: isActive('/sponsors') }" to="/sponsors">Sponsors</router-link>
             </li>
-
-            <li v-if="isAdmin" class="nav-item dropdown">
-              <router-link class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Admin pages
-              </router-link>
-              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <router-link class="nav-link" :class="{ active: isActive('/admin') }" to="/admin">User Management</router-link>
-                <router-link class="nav-link" :class="{ active: isActive('/attendeelist') }" to="/attendeelist">Attendee List</router-link>
-              </ul>
+            <li v-if="isAdmin" class="nav-item">
+              <router-link class="nav-link" :class="{ active: isActive('/admin') }" to="/admin">User Management</router-link>
+            </li>
+            <li v-if="isAdmin" class="nav-item">
+              <router-link class="nav-link" :class="{ active: isActive('/attendeelist') }" to="/attendeelist">Attendee List</router-link>
             </li>
             <li class="nav-item">
-              <router-link class="nav-link" :class="{ active: isActive('/contact') }" to="/contact">Contact</router-link>
+              <router-link class="nav-link" :class="{ active: isActive('/gallery') }" to="/gallery">Gallery</router-link>
+            </li>
+            <li class="nav-item">
+              <router-link class="nav-link" :class="{ active: isActive('/comments') }" to="/comments">Comments</router-link>
             </li>
           </ul>
           <div v-if="isAuthenticated">

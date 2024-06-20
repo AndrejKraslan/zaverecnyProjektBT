@@ -75,7 +75,7 @@ const deleteSpeaker = async (id) => {
 };
 
 const getImageUrl = (imagePath) => {
-  return `http://localhost/zaverecnyProjektBT/backend/public/${imagePath}`;
+  return `http://localhost:8888/zaverecnyProjektBT/backend/public/${imagePath}`;
 };
 
 const openEditModal = (speaker) => {
