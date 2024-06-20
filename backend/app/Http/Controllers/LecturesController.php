@@ -123,14 +123,4 @@ class LecturesController extends Controller
         return response()->json(['message' => 'Lecture deleted successfully']);
     }
 
-    public function show($id)
-    {
-        $lecture = Lectures::find($id);
-
-        if (!$lecture) {
-            return response()->json(['message' => 'Lecture not found'], 404);
-        }
-
-        return response()->json($lecture);
-    }
 }

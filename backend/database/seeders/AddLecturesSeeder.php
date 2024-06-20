@@ -25,7 +25,7 @@ class AddLecturesSeeder extends Seeder
             $randomSeconds = mt_rand(0, 86399);
             $randomTime = date('H:i', $randomSeconds);
 
-            $newLectures->name = "lecture_".mt_rand(1,5000);
+            $newLectures->name = "Lecture_".$i;
             $newLectures->description = Str::random(150);
             // obrazok
             $imageIndex = mt_rand(0,15);

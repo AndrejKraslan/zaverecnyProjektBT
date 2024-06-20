@@ -46,12 +46,12 @@ class UsersHasLecturesController extends Controller
 
         $requestedLecture = Lectures::find($validatedData['lecture_id']);
 
-        // Check if the lecture has reached its maximum capacity
+        // Konrola kapacity prednasky
         if ($requestedLecture->capacity >= $requestedLecture->max_capacity) {
             return response()->json(['message' => 'Lecture has reached its maximum capacity'], 409);
         }
 
-        // Check if the user is already registered for this lecture
+        // Konrola duplicity
 
         $existingRegistration = UserLecture::where('user_id', $user->user_id)
             ->where('lecture_id', $validatedData['lecture_id'])
@@ -76,7 +76,7 @@ class UsersHasLecturesController extends Controller
             return response()->json(['message' => 'You are already registered for a lecture that overlaps with the requested lecture'], 409);
         }
 
-        // Increment the capacity
+        // zvysit hodnotu kapacity
         $requestedLecture->increment('capacity');
 
         // vtvorit registraciu
@@ -115,7 +115,7 @@ class UsersHasLecturesController extends Controller
 
         $requestedLecture = Lectures::find($validatedData['lecture_id']);
 
-        // Decrement the capacity
+        // znizit kapacitu
         if ($requestedLecture->capacity > 0) {
             $requestedLecture->decrement('capacity');
         }

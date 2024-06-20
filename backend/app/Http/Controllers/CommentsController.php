@@ -92,15 +92,4 @@ class CommentsController extends Controller
             return response()->json(['message' => 'Error deleting comment'], 500);
         }
     }
-
-    public function show($id)
-    {
-        $comment = Comments::find($id);
-
-        if (!$comment) {
-            return response()->json(['message' => 'Comment not found'], 404);
-        }
-
-        return response()->json($comment);
-    }
 }
