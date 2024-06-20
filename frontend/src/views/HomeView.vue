@@ -1,9 +1,12 @@
+<template>
+    <SlideShowHeader />
+    <AboutUs />
+  <SpeakerAbout />
+</template>
+
 <script setup>
-import TheWelcome from '../components/TheWelcome.vue'
+import SlideShowHeader from '@/components/SlideShowHeader.vue';
+import AboutUs from "@/components/AboutUs.vue";
+import SpeakerAbout from "@/components/SpeakerAbout.vue";
 </script>
 
-<template>
-  <main>
-    <TheWelcome />
-  </main>
-</template>
